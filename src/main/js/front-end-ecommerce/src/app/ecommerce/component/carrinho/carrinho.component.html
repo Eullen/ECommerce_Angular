@@ -1,0 +1,100 @@
+<div *ngIf="carrinho$ | async as carrinho; else erroOuCarregando">
+  <div *ngIf="carrinho.produtosCarrinho.length; else carrinhoVazio">
+    <div class="row">
+      <div class="col-md-8">
+        <table mdbTable striped="true" hover="true" class=".w-auto">
+          <col style="width: 50%;" />
+          <col style="width: 10%;" />
+          <col style="width: 10%;" />
+          <col style="width: 30%;" />
+          <thead>
+            <tr>
+              <th>
+                <h5>Produto</h5>
+              </th>
+              <th>
+                <h5>Preço</h5>
+              </th>
+              <th>
+                <h5>Quantidade</h5>
+              </th>
+              <th>
+                <h5>Total</h5>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr mdbTableCol *ngFor="let produtoCarrinho of carrinho.produtosCarrinho">
+              <th>
+                {{ produtoCarrinho.produto.nome }}
+              </th>
+              <th>
+                {{ produtoCarrinho.produto.valor }}
+              </th>
+              <th>
+                <input
+                  type="number"
+                  min="1"
+                  step="1"
+                  class="form-control"
+                  id="qtdInput"
+                  mdbInput
+                  [value]="produtoCarrinho.quantidade"
+                  (change)="atualizarQuantidade($event, produtoCarrinho)"
+                />
+              </th>
+              <th>
+                {{ produtoCarrinho.quantidade * produtoCarrinho.produto.valor }}
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-4">
+        <div class="alert alert-success text-center">
+          <h5>Seu Pedido</h5>
+          <h5>Items: {{ carrinho.produtosCarrinho.length }}</h5>
+          <h5>Total:</h5>
+          <button
+            mdbBtn
+            mdbWavesEffect
+            type="button"
+            color="success"
+            outline="true"
+            size="sm"
+            (click)="fecharPedido(carrinho)"
+          >
+            Finalizar Pedido
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #carrinhoVazio>
+    <div class="d-flex justify-content-center">
+      <h4>
+        Nenhum produto adicionado ao carrinho.
+        <a routerLink="/"> Ver produtos.</a>
+      </h4>
+    </div>
+  </ng-template>
+</div>
+<ng-template #erroOuCarregando>
+  <ng-container *ngIf="erro; else carregando">
+    <div class="col-12 text-center">
+      <div class="alert alert-danger">
+        Erro ao recuperar o carrinho
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #carregando>
+  <div class="d-flex justify-content-center">
+    <h4>Carregando...</h4>
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</ng-template>

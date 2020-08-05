@@ -1,0 +1,40 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark fixed-top elegant-color" [containerInside]="false">
+  <!-- Navbar brand -->
+  <mdb-navbar-brand>
+    <h5 class="white-text">
+      E-Commerce do Eullen
+    </h5>
+  </mdb-navbar-brand>
+
+  <links>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/"> <mdb-icon fas icon="home"></mdb-icon> Home </a>
+      </li>
+
+      <div *ngIf="usuarioLogado; else usuarioDeslogado">
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/carrinho">
+            <mdb-icon fas icon="shopping-cart"></mdb-icon> Carrinho
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/pedidos">
+            <mdb-icon fas icon="clipboard-list"></mdb-icon> Pedidos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect> <mdb-icon fas icon="user"></mdb-icon> Logout </a>
+        </li>
+      </div>
+
+      <ng-template #usuarioDeslogado>
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/login">
+            <mdb-icon fas icon="user"></mdb-icon> Login
+          </a>
+        </li>
+      </ng-template>
+    </ul>
+  </links>
+</mdb-navbar>
