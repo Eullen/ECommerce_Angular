@@ -4,7 +4,6 @@ export class Cliente {
     private nome: string,
     private usuario: string,
     private idCarrinho: number,
-    private senha?: string,
     private token?: string
   ) {}
 

@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8081/ecommerce/api',
+  oauthUrl: 'http://localhost:8081/ecommerce/oauth/token',
   grantType: 'password',
   clientId: 'ecommerce-front',
   clientSecret: 'admin13',

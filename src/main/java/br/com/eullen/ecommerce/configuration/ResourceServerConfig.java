@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 
 @Configuration
 @EnableResourceServer
-public class ConfiguracaoServidorRecursos extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public static final String RESOURCE_ID = "ecommerce-rest-api";
 
     @Override
@@ -20,15 +20,18 @@ public class ConfiguracaoServidorRecursos extends ResourceServerConfigurerAdapte
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
-            .cors()
-            .and()
-                .logout()
-                    .invalidateHttpSession(true)
-                    .clearAuthentication(true)
+            .csrf()
+                .disable()
+            .anonymous()
+                .disable()
+            .logout()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
             .and()
                 .authorizeRequests()
-                    .anyRequest()
+                .antMatchers("/api/oauth/token")
+                    .permitAll()
+                .anyRequest()
                         .authenticated();
     }
 }

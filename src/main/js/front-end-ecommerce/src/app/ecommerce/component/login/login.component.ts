@@ -39,17 +39,24 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authService
-      .login(this.f.usuario.value, this.f.senha.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.router.navigate(['/']);
-        },
-        error => {
-          alert('Erro ao autenticar com o usuário/senha informados.');
-          this.loading = false;
-        }
-      );
+    this.authService.login(this.f.usuario.value, this.f.senha.value).subscribe(
+      responseValue => {
+        this.authService.recuperarClienteAuth(responseValue).subscribe(
+          data => {
+            this.router.navigate(['/']);
+          },
+          error => {
+            alert('Não foi possível completar o login. Erro ao salvar usuário.');
+            this.loading = false;
+            this.authService.logout();
+          }
+        );
+      },
+      err => {
+        //Mudar mensagem se o erro não foi de 401
+        alert('Erro ao autenticar com o usuário/senha informados.');
+        this.loading = false;
+      }
+    );
   }
 }

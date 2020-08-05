@@ -13,13 +13,17 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableAuthorizationServer
-public class ConfiguracaoServidorAutenticacao extends AuthorizationServerConfigurerAdapter  {
+public class AuthServerConfig extends AuthorizationServerConfigurerAdapter  {
     private TokenStore tokenStore = new InMemoryTokenStore();
 
     @Autowired
@@ -48,7 +52,7 @@ public class ConfiguracaoServidorAutenticacao extends AuthorizationServerConfigu
                     .withClient("ecommerce-front")
                     .authorizedGrantTypes("password", "authorization_code", "refresh_token").scopes("all")
                     .refreshTokenValiditySeconds(300000)
-                    .resourceIds(ConfiguracaoServidorRecursos.RESOURCE_ID)
+                    .resourceIds(ResourceServerConfig.RESOURCE_ID)
                     .secret(passwordEncoder.encode("admin13"))
                     .accessTokenValiditySeconds(50000);
         }

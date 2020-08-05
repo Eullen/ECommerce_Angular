@@ -45,14 +45,14 @@ public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent
             Produto p3 = new Produto();
             p3.setEstoque(new Estoque(2L));
             p3.setNome("Produto 3");
-            p1.setDescricao("Descricao Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
-                    "when an unknown printer took a galley of type and scrambled it to make a type specimen book.");
             p3.setValor(BigDecimal.valueOf(1999.99));
 
             Produto p4 = new Produto();
             p4.setEstoque(new Estoque(2L));
             p4.setNome("Produto 4");
+            p4.setDescricao("Descricao Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
+                    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
+                    "when an unknown printer took a galley of type and scrambled it to make a type specimen book.");
             p4.setValor(BigDecimal.valueOf(849.50));
 
             produtoService.salvarProduto(p1);

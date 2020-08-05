@@ -26,32 +26,33 @@ export class AuthService {
 
     params = params.append('grant_type', environment.grantType);
 
+    const payload = {
+      username: usuario,
+      password: senha,
+    };
+
     const headers = {
       'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
       Authorization: 'Basic ' + btoa(`${environment.clientId}:${environment.clientSecret}`),
     };
 
-    return this.http.post<any>(`${environment.apiUrl}/oauth/token`, { usuario, senha }, { headers: headers }).pipe(
-      tap(tokenResponse => {
-        this.recuperarClienteAuth(tokenResponse);
-      }),
-      catchError(err => {
-        console.log(err);
-        return throwError(err);
-      })
-    );
+    return this.http.post<any>(`${environment.oauthUrl}`, new HttpParams({ fromObject: payload }), {
+      headers,
+      params,
+    });
   }
 
-  private recuperarClienteAuth(tokenResponse: any) {
+  public recuperarClienteAuth(tokenResponse: any) {
     const headers = {
       Authorization: `${tokenResponse.token_type} ${tokenResponse.access_token}`,
     };
-    return this.http.get<any>(`${environment.apiUrl}/clientes/auth`).pipe(
-      map(data => {
-        const cliente = new Cliente(data.id, data.nome, data.usuario, data.carrinho.id);
+    return this.http.get(`${environment.apiUrl}/clientes/auth`, { headers }).pipe(
+      tap(data => {
+        //salvando cliente e token na local storage
+        //criar cliente dto
+        const cliente = new Cliente(data.id, data.nome, data.usuario, data.carrinho.id, tokenResponse.access_token);
         localStorage.setItem('usuarioAtual', JSON.stringify(cliente));
         this.usuarioAtualSubject.next(cliente);
-        return cliente;
       }),
       catchError(err => {
         console.log(err);
