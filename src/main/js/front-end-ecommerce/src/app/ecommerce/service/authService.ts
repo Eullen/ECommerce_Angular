@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Cliente } from '../model/cliente';
 import { environment } from '../../../environments/environment';
-import { map, catchError } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { map, catchError, mergeMap, tap } from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -22,20 +22,42 @@ export class AuthService {
   }
 
   login(usuario: string, senha: string) {
-    return this.http
-      .post<any>(`${environment.apiUrl}/cliente/login`, { usuario, senha })
-      .pipe(
-        map(cliente => {
-          //guarda usuario e token no local storage
-          localStorage.setItem('usuarioAtual', JSON.stringify(cliente));
-          this.usuarioAtualSubject.next(cliente);
-          return cliente;
-        }),
-        catchError(err => {
-          console.log(err);
-          return throwError(err);
-        })
-      );
+    let params = new HttpParams();
+
+    params = params.append('grant_type', environment.grantType);
+
+    const headers = {
+      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
+      Authorization: 'Basic ' + btoa(`${environment.clientId}:${environment.clientSecret}`),
+    };
+
+    return this.http.post<any>(`${environment.apiUrl}/oauth/token`, { usuario, senha }, { headers: headers }).pipe(
+      tap(tokenResponse => {
+        this.recuperarClienteAuth(tokenResponse);
+      }),
+      catchError(err => {
+        console.log(err);
+        return throwError(err);
+      })
+    );
+  }
+
+  private recuperarClienteAuth(tokenResponse: any) {
+    const headers = {
+      Authorization: `${tokenResponse.token_type} ${tokenResponse.access_token}`,
+    };
+    return this.http.get<any>(`${environment.apiUrl}/clientes/auth`).pipe(
+      map(data => {
+        const cliente = new Cliente(data.id, data.nome, data.usuario, data.carrinho.id);
+        localStorage.setItem('usuarioAtual', JSON.stringify(cliente));
+        this.usuarioAtualSubject.next(cliente);
+        return cliente;
+      }),
+      catchError(err => {
+        console.log(err);
+        return throwError(err);
+      })
+    );
   }
 
   logout() {

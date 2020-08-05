@@ -6,6 +6,7 @@ import br.com.eullen.ecommerce.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +24,16 @@ public class ClienteController {
     public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
         Cliente clienteCriado = this.clienteService.criarCliente(cliente);
         return new ResponseEntity<Cliente>(clienteCriado, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value="/auth", produces="application/json")
+    public ResponseEntity<Cliente> recuperarClienteLogado(){
+         Cliente clienteLogado
+                 = (Cliente) SecurityContextHolder
+                    .getContext()
+                        .getAuthentication()
+                            .getPrincipal();
+        return new ResponseEntity<Cliente>(clienteLogado, HttpStatus.OK);
     }
 
     //TODO: Remover depois e tirar a senha do JSON de retorno

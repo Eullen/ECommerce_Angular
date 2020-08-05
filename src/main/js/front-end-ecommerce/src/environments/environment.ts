@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/api',
+  apiUrl: 'http://localhost:8081/ecommerce/api',
+  grantType: 'password',
+  clientId: 'ecommerce-front',
+  clientSecret: 'admin13',
 };
 
 /*

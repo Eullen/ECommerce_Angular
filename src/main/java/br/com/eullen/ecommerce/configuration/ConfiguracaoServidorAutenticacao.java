@@ -45,20 +45,21 @@ public class ConfiguracaoServidorAutenticacao extends AuthorizationServerConfigu
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients
                 .inMemory()
-                .withClient("admin")
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token").scopes("all")
-                .refreshTokenValiditySeconds(300000)
-                .resourceIds(ConfiguracaoServidorRecursos.RESOURCE_ID)
-                .secret(passwordEncoder.encode("admin"))
-                .accessTokenValiditySeconds(50000);
-    }
+                    .withClient("ecommerce-front")
+                    .authorizedGrantTypes("password", "authorization_code", "refresh_token").scopes("all")
+                    .refreshTokenValiditySeconds(300000)
+                    .resourceIds(ConfiguracaoServidorRecursos.RESOURCE_ID)
+                    .secret(passwordEncoder.encode("admin13"))
+                    .accessTokenValiditySeconds(50000);
+        }
 
     @Bean
     @Primary
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setSupportRefreshToken(true);
+        tokenServices.setSupportRefreshToken(false);
         tokenServices.setTokenStore(this.tokenStore);
         return tokenServices;
     }
+
 }

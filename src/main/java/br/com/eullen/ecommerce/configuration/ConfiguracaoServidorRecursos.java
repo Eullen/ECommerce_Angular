@@ -20,9 +20,12 @@ public class ConfiguracaoServidorRecursos extends ResourceServerConfigurerAdapte
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-            .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
+            .csrf().disable()
+            .cors()
+            .and()
+                .logout()
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
             .and()
                 .authorizeRequests()
                     .anyRequest()

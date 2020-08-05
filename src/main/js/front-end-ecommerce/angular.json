@@ -70,7 +70,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "front-end-ecommerce:build"
+            "browserTarget": "front-end-ecommerce:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {

@@ -40,7 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         @Override
         public String getUsername() {
-            return this.getUsuario();
+            return this.getUsuario().toLowerCase();
         }
 
         @Override

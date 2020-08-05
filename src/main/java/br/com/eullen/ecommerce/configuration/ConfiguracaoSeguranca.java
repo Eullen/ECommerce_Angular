@@ -24,12 +24,12 @@ public class ConfiguracaoSeguranca extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Override
-    protected void configure(HttpSecurity security) throws Exception {
-        security.formLogin().disable();
-        security.csrf().disable();
-        security.authorizeRequests().antMatchers("/*").permitAll();
-    }
+//    @Override
+//    protected void configure(HttpSecurity security) throws Exception {
+//        security.formLogin().disable();
+//        security.csrf().disable();
+//        security.authorizeRequests().antMatchers("/*").permitAll();
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

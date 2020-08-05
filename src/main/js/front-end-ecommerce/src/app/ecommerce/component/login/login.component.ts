@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/']);
         },
         error => {
-          alert('Erro ao autenticar com o usuário/senha fornecidos');
+          alert('Erro ao autenticar com o usuário/senha informados.');
           this.loading = false;
         }
       );

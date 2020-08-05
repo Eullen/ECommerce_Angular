@@ -31,6 +31,7 @@ public class ClienteServiceImpl implements ClienteService {
         carrinho.setProdutosCarrinho(Collections.emptyList());
         novoCliente.setCarrinho(carrinho);
         novoCliente.setSenha(passwordEncoder.encode(novoCliente.getSenha()));
+        novoCliente.setUsuario(novoCliente.getUsuario().toLowerCase());
         return clienteRepository.save(novoCliente);
     }
 
