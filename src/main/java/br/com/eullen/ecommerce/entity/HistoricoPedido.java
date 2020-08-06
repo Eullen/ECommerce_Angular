@@ -1,4 +1,62 @@
 package br.com.eullen.ecommerce.entity;
 
-public class HistoricoPedido {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
+
+@Entity
+public class HistoricoPedido implements Serializable {
+
+    private static final long serialVersionUID = -6181216088301998072L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @CreationTimestamp
+    private Date dataCadastro;
+
+    @OneToMany(mappedBy="historicoPedido", cascade = CascadeType.ALL)
+    private Collection<ProdutoPedido> produtosPedido;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="cliente_id", nullable=false)
+    private Cliente cliente;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public Collection<ProdutoPedido> getProdutosPedido() {
+        return produtosPedido;
+    }
+
+    public void setProdutosPedido(Collection<ProdutoPedido> produtosPedido) {
+        this.produtosPedido = produtosPedido;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 }

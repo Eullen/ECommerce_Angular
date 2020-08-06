@@ -2,8 +2,10 @@ package br.com.eullen.ecommerce.controller;
 
 import br.com.eullen.ecommerce.dto.ClienteDto;
 import br.com.eullen.ecommerce.entity.Cliente;
+import br.com.eullen.ecommerce.entity.HistoricoPedido;
 import br.com.eullen.ecommerce.repository.ClienteRepository;
 import br.com.eullen.ecommerce.service.ClienteService;
+import br.com.eullen.ecommerce.service.HistoricoPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +20,18 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private HistoricoPedidoService historicoPedidoService;
+
     @PostMapping(produces = "application/json")
     public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
         Cliente clienteCriado = this.clienteService.criarCliente(cliente);
         return new ResponseEntity<Cliente>(clienteCriado, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/{id}/historicoPedidos", produces = "application/json")
+    public Iterable<HistoricoPedido> recuperarHistoricoPedidos(@PathVariable Long id) {
+        return this.historicoPedidoService.recuperarHistoricoPedidosCliente(id);
     }
 
     @GetMapping(value = "/auth", produces = "application/json")

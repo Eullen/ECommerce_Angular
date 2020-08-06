@@ -92,18 +92,15 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         return this.carrinhoRepository.save(carrinho);
     }
 
+    /**
+     * @param idCarrinho
+     * @return {@link Carrinho} atualizado
+     */
     @Override
-    public Carrinho atualizarProdutosDoCarrinho(Long idCarrinho, List<ProdutoCarrinho> produtosCarrinho) {
+    public Carrinho removerTodosOsProdutosDoCarrinho(Long idCarrinho) {
         Carrinho carrinho = this.recuperarCarrinho(idCarrinho);
-        List<ProdutoCarrinho> produtosCarrinhoAtualizados =
-                produtosCarrinho
-                        .stream()
-                        .map(produtoCarrinho -> {
-                            this.produtoService.validarEstoqueProduto(produtoCarrinho.getProduto().getId(), produtoCarrinho.getQuantidade());
-                            return this.salvarProdutoCarrinho(produtoCarrinho, idCarrinho);
-                        })
-                        .collect(Collectors.toList());
-        carrinho.setProdutosCarrinho(produtosCarrinhoAtualizados);
+        carrinho.getProdutosCarrinho().clear();
+        this.produtoCarrinhoRepository.deleteByCarrinhoId(idCarrinho);
         return this.carrinhoRepository.save(carrinho);
     }
 

@@ -36,8 +36,7 @@ public interface CarrinhoService {
 
     /**
      * @param idCarrinho
-     * @param produtosCarrinho
      * @return {@link Carrinho} atualizado
      */
-    Carrinho atualizarProdutosDoCarrinho(Long idCarrinho, List<ProdutoCarrinho> produtosCarrinho);
+    Carrinho removerTodosOsProdutosDoCarrinho(Long idCarrinho);
 }

@@ -1,9 +1,8 @@
 package br.com.eullen.ecommerce.configuration;
 
-import br.com.eullen.ecommerce.entity.Cliente;
-import br.com.eullen.ecommerce.entity.Estoque;
-import br.com.eullen.ecommerce.entity.Produto;
+import br.com.eullen.ecommerce.entity.*;
 import br.com.eullen.ecommerce.service.ClienteService;
+import br.com.eullen.ecommerce.service.HistoricoPedidoService;
 import br.com.eullen.ecommerce.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -11,6 +10,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 @Component
 public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent> {
@@ -20,6 +20,9 @@ public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent
 
     @Autowired
     ClienteService clienteService;
+
+    @Autowired
+    HistoricoPedidoService historicoPedidoService;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -66,8 +69,34 @@ public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent
         //Todo: melhorar validacao
         Cliente cliente1 = new Cliente("Zé Silva", "ze@email.com", "12345");
         Cliente cliente2 = new Cliente("Maria Silva", "mariasilva", "1010");
-
         clienteService.criarCliente(cliente1);
         clienteService.criarCliente(cliente2);
+
+        this.criarHistoricoPedidoParaCliente(cliente2);
+    }
+
+    private void criarHistoricoPedidoParaCliente(Cliente cliente){
+
+        HistoricoPedido historicoPedido = new HistoricoPedido();
+        historicoPedido.setCliente(cliente);
+
+        ProdutoPedido pp1 = new ProdutoPedido();
+        pp1.setNome("Produto Com Descricao");
+        pp1.setDescricao("Descricao produto");
+        pp1.setValor(BigDecimal.valueOf(100.00));
+        pp1.setQuantidade(10L);
+        pp1.setTotal(BigDecimal.valueOf(1000.00));
+        pp1.setHistoricoPedido(historicoPedido);
+
+        ProdutoPedido pp2 = new ProdutoPedido();
+        pp2.setNome("Produto Que não existe mais");
+        pp2.setDescricao("Produto descontinuado");
+        pp2.setValor(BigDecimal.valueOf(1999.99));
+        pp2.setQuantidade(2L);
+        pp2.setTotal(pp2.getValor().multiply(BigDecimal.valueOf(4L)));
+        pp2.setHistoricoPedido(historicoPedido);
+
+        historicoPedido.setProdutosPedido(Arrays.asList(pp1, pp2));
+        historicoPedidoService.salvarHistoricoPedido(historicoPedido);
     }
 }

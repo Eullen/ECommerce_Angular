@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @Entity
 @Table(indexes = @Index(columnList = "nome", name = "nome_produto"))
-public class Produto implements Serializable {
+public class Produto implements Serializable, ProdutoBasico {
 
     private static final long serialVersionUID = 1603890816984961655L;
 

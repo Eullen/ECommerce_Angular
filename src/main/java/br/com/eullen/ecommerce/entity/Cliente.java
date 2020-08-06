@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -32,9 +33,8 @@ public class Cliente implements Serializable {
     @JoinColumn(name = "carrinho_id", referencedColumnName = "id")
     private Carrinho carrinho;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private Collection<HistoricoPedido> historicoPedidos;
 
     public Cliente() {
 
@@ -56,6 +56,7 @@ public class Cliente implements Serializable {
     public Cliente(Cliente cliente) {
         super();
         this.carrinho = cliente.getCarrinho();
+        this.historicoPedidos = cliente.getHistoricoPedidos();
         this.id = cliente.getId();
         this.dataCadastro = cliente.getDataCadastro();
         this.senha = cliente.getSenha();
@@ -109,5 +110,13 @@ public class Cliente implements Serializable {
 
     public void setCarrinho(Carrinho carrinho) {
         this.carrinho = carrinho;
+    }
+
+    public Collection<HistoricoPedido> getHistoricoPedidos() {
+        return historicoPedidos;
+    }
+
+    public void setHistoricoPedidos(Collection<HistoricoPedido> historicoPedidos) {
+        this.historicoPedidos = historicoPedidos;
     }
 }
