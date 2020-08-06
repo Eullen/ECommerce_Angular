@@ -1,6 +1,45 @@
 <div *ngIf="historicoPedidos$ | async as historicoPedidos; else erroOuCarregando">
-  <div class="row">
-    <p>Funcionou</p>
+  <div class="col-12 text-center">
+    <h3>
+      Histórico de Pedidos
+    </h3>
+    <div *ngFor="let historicoPedido of historicoPedidos" class="row">
+      <mdb-card class="text-center cardHistoricoPedido">
+        <mdb-card-body>
+          <mdb-card-title>
+            <h4>Data do Pedido: {{ historicoPedido.dataCadastro | date: 'dd/MM/yyyy HH:mm' }}</h4>
+          </mdb-card-title>
+          <mdb-card-text>
+            <table class=".w-auto" hover="true" mdbTable striped="true">
+              <col style="width: 10%;" />
+              <col style="width: 70%;" />
+              <col style="width: 10%;" />
+              <col style="width: 10%;" />
+              <tr>
+                <th>Quantidade</th>
+                <th>Produto</th>
+                <th>Valor</th>
+                <th>Total</th>
+              </tr>
+              <tr *ngFor="let produtoPedido of historicoPedido.produtosPedidos">
+                <th>
+                  {{ produtoPedido.quantidade }}
+                </th>
+                <th>
+                  <h5>{{ produtoPedido.nome }}</h5>
+                  <p *ngIf="produtoPedido.descricao">
+                    {{ produtoPedido.descricao }}
+                  </p>
+                </th>
+                <th>R$ {{ produtoPedido.valor }}</th>
+                <th>R$ {{ produtoPedido.total }}</th>
+              </tr>
+            </table>
+            <h4>Total: {{ historicoPedido.total }}</h4>
+          </mdb-card-text>
+        </mdb-card-body>
+      </mdb-card>
+    </div>
   </div>
 </div>
 
@@ -8,7 +47,7 @@
   <ng-container *ngIf="erro; else carregando">
     <div class="col-12 text-center">
       <div class="alert alert-danger">
-        Erro ao recuperar o histórico de pedidos
+        Erro ao recuperar seu histórico de pedidos. Tente novamente mais tarde.
       </div>
     </div>
   </ng-container>

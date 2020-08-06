@@ -1,10 +1,10 @@
 export class Cliente {
   constructor(
-    private id: number,
+    public id: number,
     private nome: string,
     private usuario: string,
-    private idCarrinho: number,
-    private token?: string
+    public idCarrinho: number,
+    public token?: string
   ) {}
 
   getToken() {

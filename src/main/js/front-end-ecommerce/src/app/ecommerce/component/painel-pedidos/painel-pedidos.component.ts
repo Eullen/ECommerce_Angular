@@ -16,10 +16,9 @@ export class PainelPedidosComponent implements OnInit {
   }
 
   erro: boolean = true;
-  idCliente = 3;
   historicoPedidos$: Observable<HistoricoPedido[]>;
 
   recuperarHistoricoPedidos(): void {
-    this.historicoPedidos$ = this.historicoPedidoService.recuperarHistoricoPedidos(3);
+    this.historicoPedidos$ = this.historicoPedidoService.recuperarHistoricoPedidos();
   }
 }

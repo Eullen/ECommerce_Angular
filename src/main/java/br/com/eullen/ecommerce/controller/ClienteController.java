@@ -46,7 +46,7 @@ public class ClienteController {
         Cliente clienteLogado
                 = (Cliente) SecurityContextHolder
                 .getContext()
-                .getAuthentication()
+                .getAuthentication  ()
                 .getPrincipal();
 
         ClienteDto dto = new ClienteDto(clienteLogado.getId(), clienteLogado.getNome(),

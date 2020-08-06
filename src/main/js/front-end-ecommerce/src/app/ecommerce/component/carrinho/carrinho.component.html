@@ -1,52 +1,77 @@
-<div *ngIf="carrinho$ | async as carrinho; else erroOuCarregando">
+<div *ngIf="erro">
+  <div class="col-12 text-center">
+    <div class="alert alert-danger">
+      {{ erro }}
+    </div>
+  </div>
+</div>
+
+<div *ngIf="sucesso">
+  <div class="col-12 text-center">
+    <div class="alert alert-success">
+      {{ sucesso }}
+    </div>
+  </div>
+</div>
+
+<div *ngIf="carregando">
+  <div class="d-flex justify-content-center">
+    <h4>Carregando...</h4>
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="carrinho">
   <div *ngIf="carrinho.produtosCarrinho.length; else carrinhoVazio">
     <div class="row">
       <div class="col-md-8">
         <table class=".w-auto" hover="true" mdbTable striped="true">
-          <col style="width: 50%;"/>
-          <col style="width: 10%;"/>
-          <col style="width: 10%;"/>
-          <col style="width: 30%;"/>
+          <col style="width: 50%;" />
+          <col style="width: 10%;" />
+          <col style="width: 10%;" />
+          <col style="width: 30%;" />
           <thead>
-          <tr>
-            <th>
-              <h5>Produto</h5>
-            </th>
-            <th>
-              <h5>Preço</h5>
-            </th>
-            <th>
-              <h5>Quantidade</h5>
-            </th>
-            <th>
-              <h5>Total</h5>
-            </th>
-          </tr>
+            <tr>
+              <th>
+                <h5>Produto</h5>
+              </th>
+              <th>
+                <h5>Preço</h5>
+              </th>
+              <th>
+                <h5>Quantidade</h5>
+              </th>
+              <th>
+                <h5>Total</h5>
+              </th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let produtoCarrinho of carrinho.produtosCarrinho" mdbTableCol>
-            <th>
-              {{ produtoCarrinho.produto.nome }}
-            </th>
-            <th>
-              {{ produtoCarrinho.produto.valor }}
-            </th>
-            <th>
-              <input
-                (change)="atualizarQuantidade($event, produtoCarrinho)"
-                [value]="produtoCarrinho.quantidade"
-                class="form-control"
-                id="qtdInput"
-                mdbInput
-                min="1"
-                step="1"
-                type="number"
-              />
-            </th>
-            <th>
-              {{ produtoCarrinho.quantidade * produtoCarrinho.produto.valor }}
-            </th>
-          </tr>
+            <tr *ngFor="let produtoCarrinho of carrinho.produtosCarrinho" mdbTableCol>
+              <th>
+                {{ produtoCarrinho.produto.nome }}
+              </th>
+              <th>
+                {{ produtoCarrinho.produto.valor }}
+              </th>
+              <th>
+                <input
+                  (change)="atualizarQuantidade($event, produtoCarrinho)"
+                  [value]="produtoCarrinho.quantidade"
+                  class="form-control"
+                  id="qtdInput"
+                  mdbInput
+                  min="1"
+                  step="1"
+                  type="number"
+                />
+              </th>
+              <th>
+                {{ produtoCarrinho.quantidade * produtoCarrinho.produto.valor }}
+              </th>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -80,21 +105,3 @@
     </div>
   </ng-template>
 </div>
-<ng-template #erroOuCarregando>
-  <ng-container *ngIf="erro; else carregando">
-    <div class="col-12 text-center">
-      <div class="alert alert-danger">
-        Erro ao recuperar o carrinho
-      </div>
-    </div>
-  </ng-container>
-</ng-template>
-
-<ng-template #carregando>
-  <div class="d-flex justify-content-center">
-    <h4>Carregando...</h4>
-    <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
-</ng-template>

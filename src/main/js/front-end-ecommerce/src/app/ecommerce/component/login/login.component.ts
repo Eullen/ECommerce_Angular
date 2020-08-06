@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  get f() {
+  get formControl() {
     return this.loginForm.controls;
   }
 
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authService.login(this.f.usuario.value, this.f.senha.value).subscribe(
+    this.authService.login(this.formControl.usuario.value, this.formControl.senha.value).subscribe(
       responseValue => {
         this.authService.recuperarClienteAuth(responseValue).subscribe(
           data => {

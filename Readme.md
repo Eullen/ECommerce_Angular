@@ -37,7 +37,9 @@ Requisitos:
     - CarrinhoService
     - ClienteService
     - HistoricoPedidoService
-    
+
+- Tela de Historico de Pedidos
+
 - Tela de Carrinho
     - Adicionar funcionalidade de editar a quantidade de produtos no carrinho
     - Adicionar lógica para finalizar pedido
@@ -51,3 +53,8 @@ Requisitos:
 - BackEnd
     - melhorar tratamento de exceções
     - Configurar swagger corretamente
+    
+- FrontEnd
+    - modularizar app
+    - melhorar telas
+    - centralizar montagem das requests

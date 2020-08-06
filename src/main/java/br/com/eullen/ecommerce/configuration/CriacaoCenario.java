@@ -104,7 +104,8 @@ public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent
         pp2.setTotal(pp2.getValor().multiply(BigDecimal.valueOf(4L)));
         pp2.setHistoricoPedido(historicoPedido);
 
-        historicoPedido.setProdutosPedido(Arrays.asList(pp1, pp2));
+        historicoPedido.setProdutosPedidos(Arrays.asList(pp1, pp2));
+        historicoPedido.setTotal(pp1.getTotal().add(pp2.getTotal()));
         historicoPedidoService.salvarHistoricoPedido(historicoPedido);
     }
 

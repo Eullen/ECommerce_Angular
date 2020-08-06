@@ -27,7 +27,6 @@ public class Carrinho implements Serializable {
     @OneToOne(mappedBy = "carrinho")
     private Cliente cliente;
 
-
     public Long getId() {
         return id;
     }

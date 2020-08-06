@@ -14,25 +14,16 @@ import { AuthService } from './authService';
 export class CarrinhoService {
   private urlCarrinhos = `${environment.apiUrl}/carrinhos`;
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
-
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  recuperarCarrinho(idCarrinho: number): Observable<Carrinho> {
-    return this.http.get<Carrinho>(`${this.urlCarrinhos}/${idCarrinho}`).pipe(retry(1), catchError(this.errorHandler));
+  recuperarCarrinho(): Observable<Carrinho> {
+    return this.http.get<Carrinho>(`${this.urlCarrinhos}/${this.authService.usuarioAtualValue.idCarrinho}`);
   }
 
   adicionarProdutoNoCarrinho(produto: Produto, quantidade: number): Observable<any> {
-    const idCarrinho = this.authService.usuarioAtualValue.idCarrinho;
-    return this.http
-      .post(`${this.urlCarrinhos}/${idCarrinho}/produtos`, new ProdutoCarrinho(produto, quantidade), this.httpOptions)
-      .pipe(retry(1), catchError(this.errorHandler));
-  }
-
-  errorHandler(err) {
-    console.log('Erro:', err);
-    return throwError(err ? err.error : err);
+    return this.http.post(
+      `${this.urlCarrinhos}/${this.authService.usuarioAtualValue.idCarrinho}/produtos`,
+      new ProdutoCarrinho(produto, quantidade)
+    );
   }
 }

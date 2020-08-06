@@ -1,16 +1,12 @@
 package br.com.eullen.ecommerce.service.impl;
 
-import br.com.eullen.ecommerce.entity.Carrinho;
-import br.com.eullen.ecommerce.entity.Cliente;
-import br.com.eullen.ecommerce.entity.HistoricoPedido;
-import br.com.eullen.ecommerce.entity.ProdutoPedido;
+import br.com.eullen.ecommerce.entity.*;
 import br.com.eullen.ecommerce.exception.OperacaoInvalidaException;
 import br.com.eullen.ecommerce.repository.HistoricoPedidoRepository;
 import br.com.eullen.ecommerce.service.CarrinhoService;
 import br.com.eullen.ecommerce.service.ClienteService;
 import br.com.eullen.ecommerce.service.HistoricoPedidoService;
 import br.com.eullen.ecommerce.service.ProdutoService;
-import ch.qos.logback.core.net.server.Client;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,31 +38,36 @@ public class HistoricoPedidoServiceImpl implements HistoricoPedidoService {
      */
     @Override
     public HistoricoPedido salvarHistoricoPedido(Carrinho carrinho, Long idCliente) {
-
         if (CollectionUtils.isEmpty(carrinho.getProdutosCarrinho())){
             throw new OperacaoInvalidaException("Não é possível salvar um pedido sem produtos");
         }
+        this.carrinhoService.removerTodosOsProdutosDoCarrinho(carrinho.getId());
+        return this.historicoPedidoRepository.save(this.montarHistoricoPedido(carrinho.getProdutosCarrinho(), idCliente));
+    }
 
+    private HistoricoPedido montarHistoricoPedido(Collection<ProdutoCarrinho> produtosCarrinho, Long idCliente){
+        BigDecimal totalPedido = BigDecimal.valueOf(0);
         Collection<ProdutoPedido> produtosPedido = new ArrayList<>();
         HistoricoPedido historicoPedido = new HistoricoPedido();
         historicoPedido.setCliente(this.clienteService.recuperarCliente(idCliente));
-        carrinho.getProdutosCarrinho().forEach( produtoCarrinho -> {
+        produtosCarrinho.forEach( produtoCarrinho -> {
             // Valida se tem estoque suficiente para realizar o pedido
             this.produtoService.validarEstoqueProduto(produtoCarrinho.getProduto().getId(), produtoCarrinho.getQuantidade());
             //Montando pedidoProduto a partir do produto do carrinho
             ProdutoPedido produtoPedido = new ProdutoPedido();
+            BigDecimal totalProduto = produtoCarrinho.getProduto().getValor().multiply(BigDecimal.valueOf(produtoCarrinho.getQuantidade()));
             produtoPedido.setNome(produtoCarrinho.getProduto().getNome());
             produtoPedido.setDescricao(produtoCarrinho.getProduto().getDescricao());
             produtoPedido.setValor(produtoCarrinho.getProduto().getValor());
             produtoPedido.setQuantidade(produtoCarrinho.getQuantidade());
-            produtoPedido.setTotal(produtoCarrinho.getProduto().getValor().multiply(BigDecimal.valueOf(produtoCarrinho.getQuantidade())));
+            produtoPedido.setTotal(totalProduto);
             produtoPedido.setHistoricoPedido(historicoPedido);
             produtosPedido.add(produtoPedido);
+            totalPedido.add(totalProduto);
         });
-
-        historicoPedido.setProdutosPedido(produtosPedido);
-        this.carrinhoService.removerTodosOsProdutosDoCarrinho(carrinho.getId());
-        return this.historicoPedidoRepository.save(historicoPedido);
+        historicoPedido.setProdutosPedidos(produtosPedido);
+        historicoPedido.setTotal(totalPedido);
+        return historicoPedido;
     }
 
     @Override

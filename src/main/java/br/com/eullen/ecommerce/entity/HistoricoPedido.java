@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 
@@ -21,7 +23,11 @@ public class HistoricoPedido implements Serializable {
     private Date dataCadastro;
 
     @OneToMany(mappedBy="historicoPedido", cascade = CascadeType.ALL)
-    private Collection<ProdutoPedido> produtosPedido;
+    private Collection<ProdutoPedido> produtosPedidos;
+
+    @Column(scale = 2)
+    @NotNull(message = "O total do pedido é obrigatório")
+    private BigDecimal total;
 
     @JsonIgnore
     @ManyToOne
@@ -44,12 +50,12 @@ public class HistoricoPedido implements Serializable {
         this.dataCadastro = dataCadastro;
     }
 
-    public Collection<ProdutoPedido> getProdutosPedido() {
-        return produtosPedido;
+    public Collection<ProdutoPedido> getProdutosPedidos() {
+        return produtosPedidos;
     }
 
-    public void setProdutosPedido(Collection<ProdutoPedido> produtosPedido) {
-        this.produtosPedido = produtosPedido;
+    public void setProdutosPedidos(Collection<ProdutoPedido> produtosPedidos) {
+        this.produtosPedidos = produtosPedidos;
     }
 
     public Cliente getCliente() {
@@ -58,5 +64,13 @@ public class HistoricoPedido implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 }

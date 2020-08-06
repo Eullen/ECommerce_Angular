@@ -4,23 +4,29 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { HistoricoPedido } from '../model/historicoPedido';
+import { Carrinho } from '../model/carrinho';
+import { AuthService } from './authService';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HistoricoPedidoService {
-  getUrlHistoricoPedido(idCliente: number) {
-    return `${environment.apiUrl}/cliente/${idCliente}/historicoPedidos`;
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
+
+  getUrlHistoricoPedido() {
+    const idCliente = this.authService.usuarioAtualValue.id;
+    return `${environment.apiUrl}/clientes/${idCliente}/historicoPedidos`;
   }
 
-  constructor(private http: HttpClient) {}
-
-  recuperarHistoricoPedidos(idCarrinho: number): Observable<HistoricoPedido[]> {
-    return null;
+  recuperarHistoricoPedidos(): Observable<HistoricoPedido[]> {
+    return this.http.get<HistoricoPedido[]>(this.getUrlHistoricoPedido());
   }
 
-  errorHandler(err) {
-    console.log('Erro:', err);
-    return throwError(err ? err.error : err);
+  salvarHistoricoPedido(carrinho: Carrinho): Observable<HistoricoPedido> {
+    return this.http.post<HistoricoPedido>(this.getUrlHistoricoPedido(), carrinho);
   }
 }
