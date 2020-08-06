@@ -65,7 +65,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         @Override
         public String getPassword() {
-            return  super.getSenha();
+            return super.getSenha();
         }
 
     }

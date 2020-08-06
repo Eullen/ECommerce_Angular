@@ -11,6 +11,10 @@ export class Cliente {
     return this.token;
   }
 
+  setToken(token: string) {
+    this.token = token;
+  }
+
   getIdCarrinho() {
     return this.idCarrinho;
   }

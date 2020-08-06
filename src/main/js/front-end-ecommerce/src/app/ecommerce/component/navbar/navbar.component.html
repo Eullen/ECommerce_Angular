@@ -9,21 +9,26 @@
   <links *ngIf="usuarioLogado; else usuarioDeslogado">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link waves-light" mdbWavesEffect routerLink="/"> <mdb-icon fas icon="home"></mdb-icon> Home </a>
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/">
+          <mdb-icon fas icon="home"></mdb-icon>
+          Home </a>
       </li>
       <li class="nav-item">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/carrinho">
-          <mdb-icon fas icon="shopping-cart"></mdb-icon> Carrinho
+          <mdb-icon fas icon="shopping-cart"></mdb-icon>
+          Carrinho
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/pedidos">
-          <mdb-icon fas icon="clipboard-list"></mdb-icon> Pedidos
+          <mdb-icon fas icon="clipboard-list"></mdb-icon>
+          Pedidos
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link waves-light" mdbWavesEffect (click)="logout()">
-          <mdb-icon fas icon="user"></mdb-icon> Logout
+        <a (click)="logout()" class="nav-link waves-light" mdbWavesEffect>
+          <mdb-icon fas icon="user"></mdb-icon>
+          Logout
         </a>
       </li>
     </ul>
@@ -33,11 +38,14 @@
     <links>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link waves-light" mdbWavesEffect routerLink="/"> <mdb-icon fas icon="home"></mdb-icon> Home </a>
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/">
+            <mdb-icon fas icon="home"></mdb-icon>
+            Home </a>
         </li>
         <li class="nav-item">
           <a class="nav-link waves-light" mdbWavesEffect routerLink="/login">
-            <mdb-icon fas icon="user"></mdb-icon> Login
+            <mdb-icon fas icon="user"></mdb-icon>
+            Login
           </a>
         </li>
       </ul>

@@ -5,7 +5,6 @@ import br.com.eullen.ecommerce.entity.Cliente;
 public interface ClienteService {
 
     /**
-     *
      * @param novoCliente
      * @return {@link Cliente} criado
      */

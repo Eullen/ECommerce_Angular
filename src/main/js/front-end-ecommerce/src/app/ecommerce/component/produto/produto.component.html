@@ -1,4 +1,4 @@
-<mdb-card class="text-center">
+<mdb-card class="text-center cardProduto">
   <mdb-card-body>
     <mdb-card-title>
       <h4>{{ produto.nome }}</h4>
@@ -10,42 +10,42 @@
       <p *ngIf="produto.descricao">
         {{ produto.descricao }}
       </p>
+      <div class="row">
+        <div *ngIf="produto.estoque.quantidade > 0; then produtoComEstoque; else produtoSemEstoque"></div>
+        <ng-template #produtoComEstoque>
+          <div class="row">
+            <div class="col-4">
+              <input
+                (change)="setQuantidade($event)"
+                [value]="quantidade"
+                class="form-control"
+                id="qtdInput"
+                mdbInput
+                min="1"
+                step="1"
+                type="number"
+              />
+            </div>
+            <div class="col-8">
+              <button
+                (click)="onAdicionarAoCarrinhoClick()"
+                color="primary"
+                mdbBtn
+                mdbWavesEffect
+                size="sm"
+                type="button"
+              >
+                Adicionar ao carrinho
+              </button>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #produtoSemEstoque>
+          <p>
+            Produto indisponível no momento.
+          </p>
+        </ng-template>
+      </div>
     </mdb-card-text>
-    <div class="row">
-      <div *ngIf="produto.estoque.quantidade > 0; then produtoComEstoque; else produtoSemEstoque"></div>
-      <ng-template #produtoComEstoque>
-        <div class="row">
-          <div class="col-4">
-            <input
-              type="number"
-              min="1"
-              step="1"
-              class="form-control"
-              id="qtdInput"
-              mdbInput
-              [value]="quantidade"
-              (change)="setQuantidade($event)"
-            />
-          </div>
-          <div class="col-8">
-            <button
-              mdbBtn
-              mdbWavesEffect
-              type="button"
-              color="primary"
-              size="sm"
-              (click)="onAdicionarAoCarrinhoClick()"
-            >
-              Adicionar ao carrinho
-            </button>
-          </div>
-        </div>
-      </ng-template>
-      <ng-template #produtoSemEstoque>
-        <p>
-          Produto indisponível no momento.
-        </p>
-      </ng-template>
-    </div>
   </mdb-card-body>
 </mdb-card>

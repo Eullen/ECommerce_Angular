@@ -2,51 +2,51 @@
   <div *ngIf="carrinho.produtosCarrinho.length; else carrinhoVazio">
     <div class="row">
       <div class="col-md-8">
-        <table mdbTable striped="true" hover="true" class=".w-auto">
-          <col style="width: 50%;" />
-          <col style="width: 10%;" />
-          <col style="width: 10%;" />
-          <col style="width: 30%;" />
+        <table class=".w-auto" hover="true" mdbTable striped="true">
+          <col style="width: 50%;"/>
+          <col style="width: 10%;"/>
+          <col style="width: 10%;"/>
+          <col style="width: 30%;"/>
           <thead>
-            <tr>
-              <th>
-                <h5>Produto</h5>
-              </th>
-              <th>
-                <h5>Preço</h5>
-              </th>
-              <th>
-                <h5>Quantidade</h5>
-              </th>
-              <th>
-                <h5>Total</h5>
-              </th>
-            </tr>
+          <tr>
+            <th>
+              <h5>Produto</h5>
+            </th>
+            <th>
+              <h5>Preço</h5>
+            </th>
+            <th>
+              <h5>Quantidade</h5>
+            </th>
+            <th>
+              <h5>Total</h5>
+            </th>
+          </tr>
           </thead>
           <tbody>
-            <tr mdbTableCol *ngFor="let produtoCarrinho of carrinho.produtosCarrinho">
-              <th>
-                {{ produtoCarrinho.produto.nome }}
-              </th>
-              <th>
-                {{ produtoCarrinho.produto.valor }}
-              </th>
-              <th>
-                <input
-                  type="number"
-                  min="1"
-                  step="1"
-                  class="form-control"
-                  id="qtdInput"
-                  mdbInput
-                  [value]="produtoCarrinho.quantidade"
-                  (change)="atualizarQuantidade($event, produtoCarrinho)"
-                />
-              </th>
-              <th>
-                {{ produtoCarrinho.quantidade * produtoCarrinho.produto.valor }}
-              </th>
-            </tr>
+          <tr *ngFor="let produtoCarrinho of carrinho.produtosCarrinho" mdbTableCol>
+            <th>
+              {{ produtoCarrinho.produto.nome }}
+            </th>
+            <th>
+              {{ produtoCarrinho.produto.valor }}
+            </th>
+            <th>
+              <input
+                (change)="atualizarQuantidade($event, produtoCarrinho)"
+                [value]="produtoCarrinho.quantidade"
+                class="form-control"
+                id="qtdInput"
+                mdbInput
+                min="1"
+                step="1"
+                type="number"
+              />
+            </th>
+            <th>
+              {{ produtoCarrinho.quantidade * produtoCarrinho.produto.valor }}
+            </th>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -56,13 +56,13 @@
           <h5>Items: {{ carrinho.produtosCarrinho.length }}</h5>
           <h5>Total:</h5>
           <button
+            (click)="fecharPedido(carrinho)"
+            color="success"
             mdbBtn
             mdbWavesEffect
-            type="button"
-            color="success"
             outline="true"
             size="sm"
-            (click)="fecharPedido(carrinho)"
+            type="button"
           >
             Finalizar Pedido
           </button>

@@ -36,7 +36,7 @@ public class Cliente implements Serializable {
         return serialVersionUID;
     }
 
-    public  Cliente(){
+    public Cliente() {
 
     }
 
@@ -53,7 +53,7 @@ public class Cliente implements Serializable {
         this.usuario = usuario;
     }
 
-    public Cliente(Cliente cliente){
+    public Cliente(Cliente cliente) {
         super();
         this.carrinho = cliente.getCarrinho();
         this.id = cliente.getId();

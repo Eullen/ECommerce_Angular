@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Produto } from '../model/produto';
 import { catchError, map, tap } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -14,22 +14,13 @@ export class ProdutoService {
   constructor(private http: HttpClient) {}
 
   recuperarTodosOsProdutos(): Observable<Produto[]> {
-    return this.http
-      .get<Produto[]>(this.urlProdutos)
-      .pipe(catchError(this.handleError<any>('recuperarTodosOsProdutos', [])));
+    return this.http.get<Produto[]>(this.urlProdutos);
   }
 
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  recuperarProdutoPorNome(trechoNomeProduto: string): Observable<Produto[]> {
+    let params = new HttpParams();
+    params = params.append('trechoNome', trechoNomeProduto);
+
+    return this.http.get<Produto[]>(this.urlProdutos, { params });
   }
 }

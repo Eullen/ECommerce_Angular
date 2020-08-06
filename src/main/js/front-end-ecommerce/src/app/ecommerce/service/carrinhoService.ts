@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { ProdutoCarrinho } from '../model/produtoCarrinho';
 import { Carrinho } from '../model/carrinho';
 import { Produto } from '../model/produto';
+import { AuthService } from './authService';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +18,16 @@ export class CarrinhoService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   recuperarCarrinho(idCarrinho: number): Observable<Carrinho> {
     return this.http.get<Carrinho>(`${this.urlCarrinhos}/${idCarrinho}`).pipe(retry(1), catchError(this.errorHandler));
   }
 
   adicionarProdutoNoCarrinho(produto: Produto, quantidade: number): Observable<any> {
+    const idCarrinho = this.authService.usuarioAtualValue.idCarrinho;
     return this.http
-      .post(`${this.urlCarrinhos}/${3}/produtos`, new ProdutoCarrinho(produto, quantidade), this.httpOptions)
+      .post(`${this.urlCarrinhos}/${idCarrinho}/produtos`, new ProdutoCarrinho(produto, quantidade), this.httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 

@@ -1,12 +1,12 @@
 <h2>Login</h2>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
   <div class="form-group">
     <label for="usuario">Usuário</label>
     <input
-      type="text"
-      formControlName="usuario"
-      class="form-control"
       [ngClass]="{ 'is-invalid': submitted && f.usuario.errors }"
+      class="form-control"
+      formControlName="usuario"
+      type="text"
     />
     <div *ngIf="submitted && f.usuario.errors" class="invalid-feedback">
       <div *ngIf="f.usuario.errors.required">Usuário é obrigatório</div>
@@ -15,10 +15,10 @@
   <div class="form-group">
     <label for="senha">Senha</label>
     <input
-      type="password"
-      formControlName="senha"
-      class="form-control"
       [ngClass]="{ 'is-invalid': submitted && f.senha.errors }"
+      class="form-control"
+      formControlName="senha"
+      type="password"
     />
     <div *ngIf="submitted && f.senha.errors" class="invalid-feedback">
       <div *ngIf="f.senha.errors.required">Senha é obrigatória</div>

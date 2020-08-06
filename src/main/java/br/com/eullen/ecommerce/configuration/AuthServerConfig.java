@@ -13,18 +13,14 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableAuthorizationServer
-public class AuthServerConfig extends AuthorizationServerConfigurerAdapter  {
-    private TokenStore tokenStore = new InMemoryTokenStore();
+public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
+    private final TokenStore tokenStore = new InMemoryTokenStore();
 
     @Autowired
     @Qualifier("authenticationManagerBean")
@@ -40,22 +36,22 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter  {
     public void configure(AuthorizationServerEndpointsConfigurer endpoints)
             throws Exception {
         endpoints
-            .tokenStore(this.tokenStore)
-            .authenticationManager(this.authenticationManager)
-            .userDetailsService(userDetailsService);
+                .tokenStore(this.tokenStore)
+                .authenticationManager(this.authenticationManager)
+                .userDetailsService(userDetailsService);
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients
                 .inMemory()
-                    .withClient("ecommerce-front")
-                    .authorizedGrantTypes("password", "authorization_code", "refresh_token").scopes("all")
-                    .refreshTokenValiditySeconds(300000)
-                    .resourceIds(ResourceServerConfig.RESOURCE_ID)
-                    .secret(passwordEncoder.encode("admin13"))
-                    .accessTokenValiditySeconds(50000);
-        }
+                .withClient("ecommerce-front")
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token").scopes("all")
+                .refreshTokenValiditySeconds(300000)
+                .resourceIds(ResourceServerConfig.RESOURCE_ID)
+                .secret(passwordEncoder.encode("admin13"))
+                .accessTokenValiditySeconds(50000);
+    }
 
     @Bean
     @Primary

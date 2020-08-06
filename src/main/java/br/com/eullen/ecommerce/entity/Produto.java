@@ -25,7 +25,7 @@ public class Produto implements Serializable {
     private String descricao;
 
     @Column(scale = 2)
-    @NotNull (message = "O valor do produto é obrigatório")
+    @NotNull(message = "O valor do produto é obrigatório")
     @Min(value = 0, message = "O valor do produto deve ser maior que 0")
     private BigDecimal valor;
 

@@ -14,24 +14,24 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources
-            .resourceId(RESOURCE_ID);
+                .resourceId(RESOURCE_ID);
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-            .csrf()
+                .csrf()
                 .disable()
-            .anonymous()
+                .anonymous()
                 .disable()
-            .logout()
+                .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
-            .and()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/api/oauth/token")
-                    .permitAll()
+                .permitAll()
                 .anyRequest()
-                        .authenticated();
+                .authenticated();
     }
 }

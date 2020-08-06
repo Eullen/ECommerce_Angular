@@ -12,12 +12,12 @@ export class JwtInterceptor implements HttpInterceptor {
   //coloca token no header da requisição se o usuário tiver logado na aplicação
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const usuarioAtual = this.authService.usuarioAtualValue;
-    const isLogado = usuarioAtual && usuarioAtual.getToken();
+    const isLogado = usuarioAtual && usuarioAtual.token;
     const isUrlApi = request.url.startsWith(environment.apiUrl);
     if (isLogado && isUrlApi) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${usuarioAtual.getToken()}`,
+          Authorization: `Bearer ${usuarioAtual.token}`,
         },
       });
     }

@@ -39,12 +39,21 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     /**
+     * @param trechoNome
+     * @return Lista com todos os {@link Produto} cadastros no sistema cujo nome contém a string informada
+     */
+    @Override
+    public Iterable<Produto> recuperarProdutosPorNome(String trechoNome) {
+        return produtoRepository.findByNomeContainingIgnoreCase(trechoNome);
+    }
+
+    /**
      * @param produto
      * @return {@link Produto} criado
      */
     @Override
     public Produto criarProduto(Produto produto) {
-        if (produto.getEstoque() == null){
+        if (produto.getEstoque() == null) {
             Estoque estoqueZerado = new Estoque();
             estoqueZerado.setQuantidade(0L);
             estoqueZerado.setDataAtualizacao(new Date());
@@ -62,10 +71,7 @@ public class ProdutoServiceImpl implements ProdutoService {
         return produtoRepository.save(produto);
     }
 
-
-
     /**
-     *
      * @param idProduto
      * @param novoEstoque
      * @return {@link Produto} com estoque atualizado
@@ -84,7 +90,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void validarEstoqueProduto(Long produtoId, Long quantidadeDesejada) {
         Produto produto = this.recuperarProduto(produtoId);
-        if (!(produto.getEstoque().getQuantidade() >= quantidadeDesejada)){
+        if (!(produto.getEstoque().getQuantidade() >= quantidadeDesejada)) {
             throw new OperacaoInvalidaException("Estoque insuficiente para realizar essa operação.");
         }
     }

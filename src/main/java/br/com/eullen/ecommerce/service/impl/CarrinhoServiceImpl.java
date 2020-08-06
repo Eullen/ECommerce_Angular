@@ -45,12 +45,12 @@ public class CarrinhoServiceImpl implements CarrinhoService {
      * @return {@link Carrinho} atualizado
      */
     @Override
-    public Carrinho adicionarProdutoCarrinho(Long idCarrinho,final ProdutoCarrinho produtoCarrinho) {
+    public Carrinho adicionarProdutoCarrinho(Long idCarrinho, final ProdutoCarrinho produtoCarrinho) {
         Carrinho carrinho = this.recuperarCarrinho(idCarrinho);
         this.produtoCarrinhoRepository
                 .findByIdCarrinhoIdAndIdProdutoId(idCarrinho, produtoCarrinho.getProduto().getId())
-                .ifPresent( produtoCarrinhoExistente -> {
-                    produtoCarrinho.setQuantidade(produtoCarrinhoExistente.getQuantidade()+produtoCarrinho.getQuantidade());
+                .ifPresent(produtoCarrinhoExistente -> {
+                    produtoCarrinho.setQuantidade(produtoCarrinhoExistente.getQuantidade() + produtoCarrinho.getQuantidade());
                 });
 
         this.produtoService.validarEstoqueProduto(produtoCarrinho.getProduto().getId(), produtoCarrinho.getQuantidade());
@@ -66,7 +66,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
      */
     @Override
     public Carrinho atualizarProdutoCarrinho(Long idCarrinho, ProdutoCarrinho produtoCarrinho) {
-        if (!this.carrinhoRepository.existsById(idCarrinho)){
+        if (!this.carrinhoRepository.existsById(idCarrinho)) {
             throw new NotFoundException("Carrinho não encontrado");
         }
         //populando produtoe e validando estoque
@@ -93,12 +93,12 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     }
 
     @Override
-    public Carrinho atualizarProdutosDoCarrinho(Long idCarrinho, List<ProdutoCarrinho> produtosCarrinho){
+    public Carrinho atualizarProdutosDoCarrinho(Long idCarrinho, List<ProdutoCarrinho> produtosCarrinho) {
         Carrinho carrinho = this.recuperarCarrinho(idCarrinho);
         List<ProdutoCarrinho> produtosCarrinhoAtualizados =
                 produtosCarrinho
                         .stream()
-                        .map( produtoCarrinho -> {
+                        .map(produtoCarrinho -> {
                             this.produtoService.validarEstoqueProduto(produtoCarrinho.getProduto().getId(), produtoCarrinho.getQuantidade());
                             return this.salvarProdutoCarrinho(produtoCarrinho, idCarrinho);
                         })
@@ -107,7 +107,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         return this.carrinhoRepository.save(carrinho);
     }
 
-    private ProdutoCarrinho salvarProdutoCarrinho(ProdutoCarrinho produtoCarrinho, Long idCarrinho){
+    private ProdutoCarrinho salvarProdutoCarrinho(ProdutoCarrinho produtoCarrinho, Long idCarrinho) {
         produtoCarrinho.setId(new ProdutoCarrinhoKey(idCarrinho, produtoCarrinho.getProduto().getId()));
         return this.produtoCarrinhoRepository.save(produtoCarrinho);
     }

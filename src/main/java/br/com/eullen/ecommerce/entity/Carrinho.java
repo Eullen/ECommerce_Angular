@@ -28,7 +28,6 @@ public class Carrinho implements Serializable {
     private Cliente cliente;
 
 
-
     public Long getId() {
         return id;
     }

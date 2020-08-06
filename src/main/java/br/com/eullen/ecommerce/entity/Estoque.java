@@ -1,4 +1,5 @@
 package br.com.eullen.ecommerce.entity;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -25,9 +26,10 @@ public class Estoque implements Serializable {
     @OneToOne(mappedBy = "estoque")
     private Produto produto;
 
-    public Estoque(){
+    public Estoque() {
 
     }
+
     public Estoque(@Min(value = 0) Long quantidade) {
         this.quantidade = quantidade;
     }

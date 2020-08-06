@@ -20,16 +20,16 @@ public class ProdutoCarrinho implements Serializable {
     @JsonIgnore
     @ManyToOne()
     @MapsId("carrinho_id")
-    @JoinColumn(name="carrinho_id")
+    @JoinColumn(name = "carrinho_id")
     private Carrinho carrinho;
 
     @ManyToOne()
     @MapsId("produto_id")
-    @JoinColumn(name="produto_id")
+    @JoinColumn(name = "produto_id")
     private Produto produto;
 
-    @NotNull( message = "É obrigatório informar a quantidade para o item do carrinho")
-    @Min(value=1, message = "Um item do carrinho deve ter a quantidade maior ou igual a 1")
+    @NotNull(message = "É obrigatório informar a quantidade para o item do carrinho")
+    @Min(value = 1, message = "Um item do carrinho deve ter a quantidade maior ou igual a 1")
     private Long quantidade;
 
     public ProdutoCarrinhoKey getId() {

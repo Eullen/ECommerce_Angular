@@ -46,19 +46,20 @@ export class AuthService {
     const headers = {
       Authorization: `${tokenResponse.token_type} ${tokenResponse.access_token}`,
     };
-    return this.http.get(`${environment.apiUrl}/clientes/auth`, { headers }).pipe(
-      tap(data => {
-        //salvando cliente e token na local storage
-        //criar cliente dto
-        const cliente = new Cliente(data.id, data.nome, data.usuario, data.carrinho.id, tokenResponse.access_token);
-        localStorage.setItem('usuarioAtual', JSON.stringify(cliente));
-        this.usuarioAtualSubject.next(cliente);
-      }),
-      catchError(err => {
-        console.log(err);
-        return throwError(err);
-      })
-    );
+    return this.http
+      .get<Cliente>(`${environment.apiUrl}/clientes/auth`, { headers })
+      .pipe(
+        tap(cliente => {
+          //salvando cliente e token na local storage
+          cliente.token = tokenResponse.access_token;
+          localStorage.setItem('usuarioAtual', JSON.stringify(cliente));
+          this.usuarioAtualSubject.next(cliente);
+        }),
+        catchError(err => {
+          console.log(err);
+          return throwError(err);
+        })
+      );
   }
 
   logout() {

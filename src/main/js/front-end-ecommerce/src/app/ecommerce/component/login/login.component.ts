@@ -46,17 +46,25 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/']);
           },
           error => {
-            alert('Não foi possível completar o login. Erro ao salvar usuário.');
-            this.loading = false;
+            this.handleError(error, 'Não foi possível completar o login. Erro ao salvar usuário.');
             this.authService.logout();
           }
         );
       },
       err => {
-        //Mudar mensagem se o erro não foi de 401
-        alert('Erro ao autenticar com o usuário/senha informados.');
-        this.loading = false;
+        this.handleError(
+          err,
+          err.status === 401
+            ? 'Falha ao autenticar com o usuário/senha informados.'
+            : 'Erro Interno. Tente novamente mais tarde.'
+        );
       }
     );
+  }
+
+  handleError(erro, mensagem) {
+    console.log(erro);
+    this.loading = false;
+    alert(mensagem);
   }
 }

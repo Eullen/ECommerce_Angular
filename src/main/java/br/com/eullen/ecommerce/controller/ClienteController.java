@@ -1,5 +1,6 @@
 package br.com.eullen.ecommerce.controller;
 
+import br.com.eullen.ecommerce.dto.ClienteDto;
 import br.com.eullen.ecommerce.entity.Cliente;
 import br.com.eullen.ecommerce.repository.ClienteRepository;
 import br.com.eullen.ecommerce.service.ClienteService;
@@ -17,29 +18,22 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    @Autowired
-    private ClienteRepository clienteRepository;
-
-    @PostMapping (produces="application/json")
+    @PostMapping(produces = "application/json")
     public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
         Cliente clienteCriado = this.clienteService.criarCliente(cliente);
         return new ResponseEntity<Cliente>(clienteCriado, HttpStatus.CREATED);
     }
 
-    @GetMapping(value="/auth", produces="application/json")
-    public ResponseEntity<Cliente> recuperarClienteLogado(){
-         Cliente clienteLogado
-                 = (Cliente) SecurityContextHolder
-                    .getContext()
-                        .getAuthentication()
-                            .getPrincipal();
-        return new ResponseEntity<Cliente>(clienteLogado, HttpStatus.OK);
-    }
+    @GetMapping(value = "/auth", produces = "application/json")
+    public ResponseEntity<ClienteDto> recuperarClienteLogado() {
+        Cliente clienteLogado
+                = (Cliente) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-    //TODO: Remover depois e tirar a senha do JSON de retorno
-    @GetMapping (value={"", "/"}, produces="application/json")
-    public Iterable<Cliente> recuperarTodosOsClientes() {
-        return this.clienteRepository.findAll();
+        ClienteDto dto = new ClienteDto(clienteLogado.getId(), clienteLogado.getNome(),
+                clienteLogado.getUsuario(), clienteLogado.getCarrinho().getId());
+        return new ResponseEntity<ClienteDto>(dto, HttpStatus.OK);
     }
-
 }

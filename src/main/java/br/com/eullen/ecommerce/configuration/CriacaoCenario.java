@@ -27,29 +27,29 @@ public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent
         this.criarClientes();
     }
 
-    private void criarProdutos(){
+    private void criarProdutos() {
         Iterable<Produto> produtos = this.produtoService.recuperarTodosOsProdutos();
-        if (!produtos.iterator().hasNext()){ //cria apenas se não existirem produtos no banco
+        if (!produtos.iterator().hasNext()) { //cria apenas se não existirem produtos no banco
 
             Produto p1 = new Produto();
             p1.setEstoque(new Estoque(2L));
-            p1.setNome("Produto 1");
-            p1.setDescricao("Descricao 1");
+            p1.setNome("Produto Com Descricao");
+            p1.setDescricao("Descricao produto");
             p1.setValor(BigDecimal.valueOf(100.00));
 
             Produto p2 = new Produto();
             p2.setEstoque(new Estoque(2L));
-            p2.setNome("Produto 2");
+            p2.setNome("Produto Sem Descricao");
             p2.setValor(BigDecimal.valueOf(250.99));
 
             Produto p3 = new Produto();
             p3.setEstoque(new Estoque(2L));
-            p3.setNome("Produto 3");
+            p3.setNome("Produto Nome Diferente");
             p3.setValor(BigDecimal.valueOf(1999.99));
 
             Produto p4 = new Produto();
             p4.setEstoque(new Estoque(2L));
-            p4.setNome("Produto 4");
+            p4.setNome("produto com descricao grande");
             p4.setDescricao("Descricao Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
                     "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
                     "when an unknown printer took a galley of type and scrambled it to make a type specimen book.");
@@ -62,10 +62,10 @@ public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent
         }
     }
 
-    private void criarClientes(){
+    private void criarClientes() {
         //Todo: melhorar validacao
-        Cliente cliente1 = new Cliente("clienteDummy","cliente@email.com","12345");
-        Cliente cliente2 = new Cliente("clienteFake","fake","1010");
+        Cliente cliente1 = new Cliente("Zé Silva", "ze@email.com", "12345");
+        Cliente cliente2 = new Cliente("Maria Silva", "mariasilva", "1010");
 
         clienteService.criarCliente(cliente1);
         clienteService.criarCliente(cliente2);

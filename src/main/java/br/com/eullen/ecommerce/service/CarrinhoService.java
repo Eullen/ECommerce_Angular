@@ -8,14 +8,12 @@ import java.util.List;
 public interface CarrinhoService {
 
     /**
-     *
      * @param idCarrinho
      * @return {@Link Carrinho} recuperado
      */
-    Carrinho recuperarCarrinho (Long idCarrinho);
+    Carrinho recuperarCarrinho(Long idCarrinho);
 
     /**
-     *
      * @param idCarrinho
      * @param produtoCarrinho
      * @return {@link Carrinho} atualizado
@@ -23,7 +21,6 @@ public interface CarrinhoService {
     Carrinho adicionarProdutoCarrinho(Long idCarrinho, ProdutoCarrinho produtoCarrinho);
 
     /**
-     *
      * @param idCarrinho
      * @param produtoCarrinho
      * @return {@link Carrinho} atualizado
@@ -38,7 +35,6 @@ public interface CarrinhoService {
     Carrinho removerProdutoCarrinho(Long idCarrinho, Long idProduto);
 
     /**
-     *
      * @param idCarrinho
      * @param produtosCarrinho
      * @return {@link Carrinho} atualizado
