@@ -91,7 +91,8 @@ public class ProdutoServiceImpl implements ProdutoService {
     public void validarEstoqueProduto(Long produtoId, Long quantidadeDesejada) {
         Produto produto = this.recuperarProduto(produtoId);
         if (!(produto.getEstoque().getQuantidade() >= quantidadeDesejada)) {
-            throw new OperacaoInvalidaException("Estoque insuficiente para realizar essa operação.");
+            throw new OperacaoInvalidaException("Estoque insuficiente do produto " + produto.getNome() +
+                    " para realizar essa operação.");
         }
     }
 }

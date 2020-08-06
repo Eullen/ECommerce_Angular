@@ -2,6 +2,7 @@ package br.com.eullen.ecommerce.service.impl;
 
 import br.com.eullen.ecommerce.entity.Carrinho;
 import br.com.eullen.ecommerce.entity.Cliente;
+import br.com.eullen.ecommerce.exception.NotFoundException;
 import br.com.eullen.ecommerce.repository.ClienteRepository;
 import br.com.eullen.ecommerce.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,17 @@ public class ClienteServiceImpl implements ClienteService {
         novoCliente.setSenha(passwordEncoder.encode(novoCliente.getSenha().toLowerCase()));
         novoCliente.setUsuario(novoCliente.getUsuario().toLowerCase());
         return clienteRepository.save(novoCliente);
+    }
+
+    /**
+     * @param idCliente
+     * @return {@link Cliente} criado
+     */
+    @Override
+    public Cliente recuperarCliente(Long idCliente) {
+        return this.clienteRepository
+                .findById(idCliente)
+                .orElseThrow(() -> new NotFoundException("Carrinho não encontrado"));
     }
 
 }

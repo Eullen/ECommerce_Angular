@@ -27,8 +27,9 @@ public class ProdutoController {
 
     @ApiOperation(value = "Retorna produto com o id informado")
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Produto recuperarPorId(@PathVariable Long id) {
-        return this.produtoService.recuperarProduto(id);
+    public ResponseEntity<Produto> recuperarPorId(@PathVariable Long id) {
+        Produto produto = this.produtoService.recuperarProduto(id);
+        return new ResponseEntity<Produto>(produto, HttpStatus.OK);
     }
 
     @PostMapping(produces = "application/json")

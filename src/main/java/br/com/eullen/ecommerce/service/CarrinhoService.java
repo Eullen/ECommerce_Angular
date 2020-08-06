@@ -39,4 +39,11 @@ public interface CarrinhoService {
      * @return {@link Carrinho} atualizado
      */
     Carrinho removerTodosOsProdutosDoCarrinho(Long idCarrinho);
+
+    /**
+     *
+     * @param carrinho
+     * @return {@link Carrinho} salvo
+     */
+    Carrinho salvarCarrinho(Carrinho carrinho);
 }

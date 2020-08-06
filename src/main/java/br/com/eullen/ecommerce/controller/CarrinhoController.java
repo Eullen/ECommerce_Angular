@@ -35,8 +35,9 @@ public class CarrinhoController {
     }
 
     @GetMapping(value = {"/{id}"}, produces = "application/json")
-    public Carrinho recuperarCarrinho(@PathVariable Long id) {
-        return this.carrinhoService.recuperarCarrinho(id);
+    public ResponseEntity<Carrinho> recuperarCarrinho(@PathVariable Long id) {
+        Carrinho carrinho = this.carrinhoService.recuperarCarrinho(id);
+        return new ResponseEntity<Carrinho>(carrinho, HttpStatus.OK);
     }
 
 }

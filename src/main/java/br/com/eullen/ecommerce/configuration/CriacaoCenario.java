@@ -1,6 +1,8 @@
 package br.com.eullen.ecommerce.configuration;
 
 import br.com.eullen.ecommerce.entity.*;
+import br.com.eullen.ecommerce.repository.ProdutoCarrinhoRepository;
+import br.com.eullen.ecommerce.service.CarrinhoService;
 import br.com.eullen.ecommerce.service.ClienteService;
 import br.com.eullen.ecommerce.service.HistoricoPedidoService;
 import br.com.eullen.ecommerce.service.ProdutoService;
@@ -23,6 +25,12 @@ public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent
 
     @Autowired
     HistoricoPedidoService historicoPedidoService;
+
+    @Autowired
+    CarrinhoService carrinhoService;
+
+    @Autowired
+    ProdutoCarrinhoRepository produtoCarrinhoRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -67,12 +75,12 @@ public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent
 
     private void criarClientes() {
         //Todo: melhorar validacao
-        Cliente cliente1 = new Cliente("Zé Silva", "ze@email.com", "12345");
-        Cliente cliente2 = new Cliente("Maria Silva", "mariasilva", "1010");
+        Cliente cliente1 = new Cliente("Cliente Novo", "cn@email.com", "12345");
+        Cliente cliente2 = new Cliente("Cliente Com Historico e Carrinho", "clienteVelho", "1010");
         clienteService.criarCliente(cliente1);
         clienteService.criarCliente(cliente2);
-
         this.criarHistoricoPedidoParaCliente(cliente2);
+        this.criarCarrinhoParaCliente(cliente2);
     }
 
     private void criarHistoricoPedidoParaCliente(Cliente cliente){
@@ -98,5 +106,27 @@ public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent
 
         historicoPedido.setProdutosPedido(Arrays.asList(pp1, pp2));
         historicoPedidoService.salvarHistoricoPedido(historicoPedido);
+    }
+
+    private void criarCarrinhoParaCliente(Cliente cliente){
+
+        Produto produto1 = this.produtoService.recuperarProduto(1L);
+        Produto produto2 = this.produtoService.recuperarProduto(2L);
+
+        Carrinho carrinho = cliente.getCarrinho();
+
+        ProdutoCarrinho pc1 = new ProdutoCarrinho();
+        pc1.setCarrinho(carrinho);
+        pc1.setProduto(produto1);
+        pc1.setQuantidade(1L);
+        pc1.setId(new ProdutoCarrinhoKey(carrinho.getId(), produto1.getId()));
+
+        ProdutoCarrinho pc2 = new ProdutoCarrinho();
+        pc2.setCarrinho(carrinho);
+        pc2.setProduto(produto2);
+        pc2.setQuantidade(1L);
+        pc2.setId(new ProdutoCarrinhoKey(carrinho.getId(), produto2.getId()));
+
+        produtoCarrinhoRepository.saveAll(Arrays.asList(pc1, pc2));
     }
 }

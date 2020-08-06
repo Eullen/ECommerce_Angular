@@ -10,7 +10,7 @@ public interface HistoricoPedidoService {
      * @param carrinho
      * @return {@link HistoricoPedido} salvo
      */
-    HistoricoPedido salvarHistoricoPedido(Carrinho carrinho);
+    HistoricoPedido salvarHistoricoPedido(Carrinho carrinho, Long idCliente);
 
     /**
      *

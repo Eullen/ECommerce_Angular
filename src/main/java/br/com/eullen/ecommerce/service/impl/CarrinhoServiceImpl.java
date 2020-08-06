@@ -104,7 +104,16 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         return this.carrinhoRepository.save(carrinho);
     }
 
-    private ProdutoCarrinho salvarProdutoCarrinho(ProdutoCarrinho produtoCarrinho, Long idCarrinho) {
+    /**
+     * @param carrinho
+     * @return {@link Carrinho} salvo
+     */
+    @Override
+    public Carrinho salvarCarrinho(Carrinho carrinho) {
+        return this.carrinhoRepository.save(carrinho);
+    }
+
+    public ProdutoCarrinho salvarProdutoCarrinho(ProdutoCarrinho produtoCarrinho, Long idCarrinho) {
         produtoCarrinho.setId(new ProdutoCarrinhoKey(idCarrinho, produtoCarrinho.getProduto().getId()));
         return this.produtoCarrinhoRepository.save(produtoCarrinho);
     }

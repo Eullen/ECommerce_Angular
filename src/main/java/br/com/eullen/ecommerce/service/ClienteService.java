@@ -10,5 +10,10 @@ public interface ClienteService {
      */
     Cliente criarCliente(Cliente novoCliente);
 
-
+    /**
+     *
+     * @param idCliente
+     * @return {@link Cliente} criado
+     */
+    Cliente recuperarCliente(Long idCliente);
 }

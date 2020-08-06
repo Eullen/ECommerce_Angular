@@ -1,6 +1,7 @@
 package br.com.eullen.ecommerce.controller;
 
 import br.com.eullen.ecommerce.dto.ClienteDto;
+import br.com.eullen.ecommerce.entity.Carrinho;
 import br.com.eullen.ecommerce.entity.Cliente;
 import br.com.eullen.ecommerce.entity.HistoricoPedido;
 import br.com.eullen.ecommerce.repository.ClienteRepository;
@@ -32,6 +33,12 @@ public class ClienteController {
     @GetMapping(value = "/{id}/historicoPedidos", produces = "application/json")
     public Iterable<HistoricoPedido> recuperarHistoricoPedidos(@PathVariable Long id) {
         return this.historicoPedidoService.recuperarHistoricoPedidosCliente(id);
+    }
+
+    @PostMapping(value = "/{id}/historicoPedidos", produces = "application/json")
+    public ResponseEntity<HistoricoPedido> salvarHistoricoPedido(@RequestBody Carrinho carrinho, @PathVariable Long id){
+        HistoricoPedido historicoPedido = this.historicoPedidoService.salvarHistoricoPedido(carrinho,id);
+        return new ResponseEntity<HistoricoPedido>(historicoPedido, HttpStatus.OK);
     }
 
     @GetMapping(value = "/auth", produces = "application/json")
