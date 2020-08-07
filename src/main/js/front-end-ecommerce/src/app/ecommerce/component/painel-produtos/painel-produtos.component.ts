@@ -64,10 +64,10 @@ export class PainelProdutosComponent implements OnInit {
           this.resetFeedbacks();
           this.sucesso = 'Produto adicionado no carrinho com sucesso';
         },
-        error => {
+        err => {
           this.handlerError(
-            error,
-            error.mensagem ? error.mensagem : 'Ocorreu um problema ao adicionar seu produto ao carrinho'
+            err,
+            err.error.mensagem ? err.error.mensagem : 'Ocorreu um problema ao adicionar seu produto ao carrinho'
           );
         }
       );

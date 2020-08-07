@@ -31,6 +31,7 @@ Requisitos:
         - Autenticacao: `http:localhost:8081/oauth/token`
         - Apis: `http:localhost:8081/ecommerce/api/{endpoint}`
 
+### Cenário Existente
 - A aplicação cria cenários ao subir:
     - Clientes:
         - Cliente Novo
@@ -44,25 +45,26 @@ Requisitos:
     - Produtos:
         - 4 produtos com 2 itens no estoque cada
 
-### Cenário Existente
-
 ## Melhorias e Pendências
 - Testes unitários
     - CarrinhoService
     - ClienteService
     - HistoricoPedidoService
 
-- Testes de Integração
+- Testes de Integração (Ver como configurar a classe de testes (Erro: Load application context))
    - ProdutoController
    - CarrinhoController
-   - HistoricoPedidoController
+   - ProdutoController
 
-- Telas
-    - Melhorar tratamento de mensagens de erro, sucesso 
-    - Melhorar loading
-    
 - FrontEnd
-    - Modularizar app para se adequar ao padrões
+    - Telas
+        - Melhorar layout
+        - Melhorar tratamento de mensagens de erro, sucesso 
+        - Mudar foco para mensagens quando tiver mensagens de erro ou sucesso
+    - Modularizar app para se adequar aos padrões
     - Melhorar os models
-    - Melhorar layout telas
     - Centralizar montagem das requests
+    
+- BackEnd
+    - Adicionar documentação da API com Swagger
+    - Paginar busca de produtos
