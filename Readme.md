@@ -17,11 +17,14 @@ Requisitos:
 
 ## Subindo os projetos
 - Front End
+    - Necessário Angular, Node e Npm
     - No terminal, acessar o repositório `src/main/js/front-end-ecommerce`
+    - Rodar o comando: `npm install`
     - Rodar o comando: `ng serve --o`
     - Acessar a aplicação com: `http://localhost:4200/`
 
 - BackEnd
+    - Necessário Java 8 ou superior e Maven instalados
     - No terminal, acessar a pasta do projeto
     - Rodar o comando: `./mvnw spring-boot:run`
     - O projeto sobe em: `http:localhost:8081/ecommerce`

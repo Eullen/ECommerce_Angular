@@ -21,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usuario) throws UsernameNotFoundException {
-        Cliente cliente = this.clienteRepository.findByUsuario(usuario);
+        Cliente cliente = this.clienteRepository.findByUsuarioIgnoreCase(usuario);
         return new ClienteDetails(cliente);
     }
 
@@ -40,7 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         @Override
         public String getUsername() {
-            return this.getUsuario().toLowerCase();
+            return this.getUsuario();
         }
 
         @Override
