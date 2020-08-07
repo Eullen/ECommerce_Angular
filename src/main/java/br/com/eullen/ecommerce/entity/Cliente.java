@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class Cliente implements Serializable {
@@ -118,5 +119,24 @@ public class Cliente implements Serializable {
 
     public void setHistoricoPedidos(Collection<HistoricoPedido> historicoPedidos) {
         this.historicoPedidos = historicoPedidos;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cliente)) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(id, cliente.id) &&
+                Objects.equals(nome, cliente.nome) &&
+                Objects.equals(usuario, cliente.usuario) &&
+                Objects.equals(senha, cliente.senha) &&
+                Objects.equals(dataCadastro, cliente.dataCadastro) &&
+                Objects.equals(carrinho, cliente.carrinho) &&
+                Objects.equals(historicoPedidos, cliente.historicoPedidos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, usuario, senha, dataCadastro, carrinho, historicoPedidos);
     }
 }

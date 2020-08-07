@@ -2,11 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProdutoCarrinho } from '../../model/produtoCarrinho';
 import { Carrinho } from '../../model/carrinho';
 import { CarrinhoService } from '../../service/carrinhoService';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
-import { Produto } from '../../model/produto';
+import { Observable } from 'rxjs';
 import { AuthService } from '../../service/authService';
-import { Cliente } from '../../model/cliente';
 import { HistoricoPedidoService } from '../../service/historicoPedidoService';
 import { Router } from '@angular/router';
 
@@ -34,18 +31,25 @@ export class CarrinhoComponent implements OnInit {
   }
 
   recuperarCarrinho(): void {
+    this.atualizarCarrinho(this.carrinhoService.recuperarCarrinho());
+  }
+
+  atualizarQuantidade(event, produtoCarrinho: ProdutoCarrinho): void {
+    this.atualizarCarrinho(
+      this.carrinhoService.atualizarProdutoNoCarrinho(produtoCarrinho.produto, event.target.value)
+    );
+    console.log(event.target.value);
+  }
+
+  atualizarCarrinho(carrinho: Observable<Carrinho>) {
     this.carregando = true;
-    this.carrinhoService.recuperarCarrinho().subscribe(
+    carrinho.subscribe(
       carrinho => {
         this.carrinho = carrinho;
         this.resetFeedbacks();
       },
-      error => this.handlerError(error, 'Erro ao recuperar os produtos. Tente novamente mais tarde.')
+      error => this.handlerError(error, 'Erro ao atualizar carrinho.')
     );
-  }
-
-  atualizarQuantidade(event, produtoCarrinho: ProdutoCarrinho): void {
-    console.log(event.target.value);
   }
 
   fecharPedido(carrinho: Carrinho): void {
@@ -53,23 +57,23 @@ export class CarrinhoComponent implements OnInit {
       data => {
         this.router.navigate(['/pedidos']);
       },
-      error =>
-        this.handlerError(
-          error,
-          error.mensagem ? error.mensagem : 'Ocorreu um problema ao finalizar seu pedido. Tente novamente mais tarde.'
-        )
+      error => this.handlerError(error, 'Ocorreu um problema ao finalizar seu pedido. Tente novamente mais tarde.')
     );
   }
 
-  private handlerError(error, mensagemErro) {
-    console.log('Erro', error);
-    this.resetFeedbacks();
-    this.erro = mensagemErro;
+  removerProduto(produtoCarrinho: ProdutoCarrinho) {
+    this.atualizarCarrinho(this.carrinhoService.removerProduto(produtoCarrinho.produto));
   }
 
   resetFeedbacks() {
     this.carregando = false;
     this.sucesso = '';
     this.erro = '';
+  }
+
+  private handlerError(error, mensagemErro) {
+    console.log('Erro', error);
+    this.resetFeedbacks();
+    this.erro = error.error.mensagem ?? mensagemErro;
   }
 }

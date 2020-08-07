@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class Estoque implements Serializable {
@@ -64,5 +65,21 @@ public class Estoque implements Serializable {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Estoque)) return false;
+        Estoque estoque = (Estoque) o;
+        return Objects.equals(id, estoque.id) &&
+                Objects.equals(quantidade, estoque.quantidade) &&
+                Objects.equals(dataAtualizacao, estoque.dataAtualizacao) &&
+                Objects.equals(produto, estoque.produto);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, quantidade, dataAtualizacao, produto);
     }
 }

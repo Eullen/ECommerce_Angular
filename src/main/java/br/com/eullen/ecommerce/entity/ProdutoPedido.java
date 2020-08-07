@@ -7,9 +7,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 public class ProdutoPedido implements Serializable, ProdutoBasico {
+
+    private static final long serialVersionUID = -6565324577264720884L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,4 +105,22 @@ public class ProdutoPedido implements Serializable, ProdutoBasico {
         this.historicoPedido = historicoPedido;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProdutoPedido)) return false;
+        ProdutoPedido that = (ProdutoPedido) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(nome, that.nome) &&
+                Objects.equals(descricao, that.descricao) &&
+                Objects.equals(valor, that.valor) &&
+                Objects.equals(quantidade, that.quantidade) &&
+                Objects.equals(total, that.total) &&
+                Objects.equals(historicoPedido, that.historicoPedido);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, descricao, valor, quantidade, total, historicoPedido);
+    }
 }

@@ -10,11 +10,11 @@
       <p *ngIf="produto.descricao">
         {{ produto.descricao }}
       </p>
-      <div class="row">
+      <div class="row" style="justify-content: center;">
         <div *ngIf="produto.estoque.quantidade > 0; then produtoComEstoque; else produtoSemEstoque"></div>
         <ng-template #produtoComEstoque>
           <div class="row">
-            <div class="col-4">
+            <div class="col-md-4" style="display: flex; align-items: center;">
               <input
                 (change)="setQuantidade($event)"
                 [value]="quantidade"
@@ -26,15 +26,8 @@
                 type="number"
               />
             </div>
-            <div class="col-8">
-              <button
-                (click)="onAdicionarAoCarrinhoClick()"
-                color="primary"
-                mdbBtn
-                mdbWavesEffect
-                size="sm"
-                type="button"
-              >
+            <div class="col-md-8">
+              <button (click)="onAdicionarAoCarrinhoClick()" color="primary" mdbBtn mdbWavesEffect type="button">
                 Adicionar ao carrinho
               </button>
             </div>

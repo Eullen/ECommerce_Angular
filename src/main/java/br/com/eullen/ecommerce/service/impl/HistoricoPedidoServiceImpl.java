@@ -50,9 +50,27 @@ public class HistoricoPedidoServiceImpl implements HistoricoPedidoService {
         Collection<ProdutoPedido> produtosPedido = new ArrayList<>();
         HistoricoPedido historicoPedido = new HistoricoPedido();
         historicoPedido.setCliente(this.clienteService.recuperarCliente(idCliente));
-        produtosCarrinho.forEach( produtoCarrinho -> {
-            // Valida se tem estoque suficiente para realizar o pedido
+//        produtosCarrinho.forEach( produtoCarrinho -> {
+//            // Valida se tem estoque suficiente para realizar o pedido e subtrai o estoque
+//            this.produtoService.validarEstoqueProduto(produtoCarrinho.getProduto().getId(), produtoCarrinho.getQuantidade());
+//            this.produtoService.atualizarEstoque(produtoCarrinho.getProduto().getId(), produtoCarrinho.getProduto().getEstoque().getQuantidade() - produtoCarrinho.getQuantidade());
+//            //Montando pedidoProduto a partir do produto do carrinho
+//            ProdutoPedido produtoPedido = new ProdutoPedido();
+//            BigDecimal totalProduto = produtoCarrinho.getProduto().getValor().multiply(BigDecimal.valueOf(produtoCarrinho.getQuantidade()));
+//            produtoPedido.setNome(produtoCarrinho.getProduto().getNome());
+//            produtoPedido.setDescricao(produtoCarrinho.getProduto().getDescricao());
+//            produtoPedido.setValor(produtoCarrinho.getProduto().getValor());
+//            produtoPedido.setQuantidade(produtoCarrinho.getQuantidade());
+//            produtoPedido.setTotal(totalProduto);
+//            produtoPedido.setHistoricoPedido(historicoPedido);
+//            produtosPedido.add(produtoPedido);
+//            totalPedido.add(totalProduto);
+//        });
+
+        for (ProdutoCarrinho produtoCarrinho : produtosCarrinho){
+            // Valida se tem estoque suficiente para realizar o pedido e subtrai o estoque
             this.produtoService.validarEstoqueProduto(produtoCarrinho.getProduto().getId(), produtoCarrinho.getQuantidade());
+            this.produtoService.atualizarEstoque(produtoCarrinho.getProduto().getId(), produtoCarrinho.getProduto().getEstoque().getQuantidade() - produtoCarrinho.getQuantidade());
             //Montando pedidoProduto a partir do produto do carrinho
             ProdutoPedido produtoPedido = new ProdutoPedido();
             BigDecimal totalProduto = produtoCarrinho.getProduto().getValor().multiply(BigDecimal.valueOf(produtoCarrinho.getQuantidade()));
@@ -63,8 +81,9 @@ public class HistoricoPedidoServiceImpl implements HistoricoPedidoService {
             produtoPedido.setTotal(totalProduto);
             produtoPedido.setHistoricoPedido(historicoPedido);
             produtosPedido.add(produtoPedido);
-            totalPedido.add(totalProduto);
-        });
+            totalPedido = totalPedido.add(totalProduto);
+        }
+
         historicoPedido.setProdutosPedidos(produtosPedido);
         historicoPedido.setTotal(totalPedido);
         return historicoPedido;
@@ -72,7 +91,7 @@ public class HistoricoPedidoServiceImpl implements HistoricoPedidoService {
 
     @Override
     public Iterable<HistoricoPedido> recuperarHistoricoPedidosCliente(Long idCliente) {
-        return this.historicoPedidoRepository.findAllByClienteId(idCliente);
+        return this.historicoPedidoRepository.findAllByClienteIdOrderByDataCadastroDesc(idCliente);
     }
 
     /**

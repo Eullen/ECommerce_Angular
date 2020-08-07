@@ -10,32 +10,32 @@
             <h4>Data do Pedido: {{ historicoPedido.dataCadastro | date: 'dd/MM/yyyy HH:mm' }}</h4>
           </mdb-card-title>
           <mdb-card-text>
-            <table class=".w-auto" hover="true" mdbTable striped="true">
-              <col style="width: 10%;" />
-              <col style="width: 70%;" />
-              <col style="width: 10%;" />
-              <col style="width: 10%;" />
-              <tr>
-                <th>Quantidade</th>
-                <th>Produto</th>
-                <th>Valor</th>
-                <th>Total</th>
-              </tr>
-              <tr *ngFor="let produtoPedido of historicoPedido.produtosPedidos">
-                <th>
-                  {{ produtoPedido.quantidade }}
-                </th>
-                <th>
-                  <h5>{{ produtoPedido.nome }}</h5>
-                  <p *ngIf="produtoPedido.descricao">
-                    {{ produtoPedido.descricao }}
-                  </p>
-                </th>
-                <th>R$ {{ produtoPedido.valor }}</th>
-                <th>R$ {{ produtoPedido.total }}</th>
-              </tr>
+            <table hover="true">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Valor</th>
+                  <th>Quantidade</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let produtoPedido of historicoPedido.produtosPedidos">
+                  <td>
+                    <h5>{{ produtoPedido.nome }}</h5>
+                    <p *ngIf="produtoPedido.descricao">
+                      {{ produtoPedido.descricao }}
+                    </p>
+                  </td>
+                  <td>R$ {{ produtoPedido.valor }}</td>
+                  <td>
+                    {{ produtoPedido.quantidade }}
+                  </td>
+                  <td>R$ {{ produtoPedido.total }}</td>
+                </tr>
+              </tbody>
             </table>
-            <h4>Total: {{ historicoPedido.total }}</h4>
+            <h4 style="padding-top: 16px;">Total: {{ historicoPedido.total }}</h4>
           </mdb-card-text>
         </mdb-card-body>
       </mdb-card>

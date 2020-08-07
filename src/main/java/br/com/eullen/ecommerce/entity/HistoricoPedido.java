@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class HistoricoPedido implements Serializable {
@@ -72,5 +73,22 @@ public class HistoricoPedido implements Serializable {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HistoricoPedido)) return false;
+        HistoricoPedido that = (HistoricoPedido) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(dataCadastro, that.dataCadastro) &&
+                Objects.equals(produtosPedidos, that.produtosPedidos) &&
+                Objects.equals(total, that.total) &&
+                Objects.equals(cliente, that.cliente);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, dataCadastro, produtosPedidos, total, cliente);
     }
 }

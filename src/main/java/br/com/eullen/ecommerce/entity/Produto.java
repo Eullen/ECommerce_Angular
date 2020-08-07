@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(indexes = @Index(columnList = "nome", name = "nome_produto"))
@@ -76,5 +77,23 @@ public class Produto implements Serializable, ProdutoBasico {
 
     public void setEstoque(Estoque estoque) {
         this.estoque = estoque;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Produto)) return false;
+        Produto produto = (Produto) o;
+        return Objects.equals(id, produto.id) &&
+                Objects.equals(nome, produto.nome) &&
+                Objects.equals(descricao, produto.descricao) &&
+                Objects.equals(valor, produto.valor) &&
+                Objects.equals(estoque, produto.estoque) &&
+                Objects.equals(itensCarrinho, produto.itensCarrinho);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, descricao, valor, estoque, itensCarrinho);
     }
 }

@@ -26,12 +26,8 @@
 <div *ngIf="carrinho">
   <div *ngIf="carrinho.produtosCarrinho.length; else carrinhoVazio">
     <div class="row">
-      <div class="col-md-8">
-        <table class=".w-auto" hover="true" mdbTable striped="true">
-          <col style="width: 50%;" />
-          <col style="width: 10%;" />
-          <col style="width: 10%;" />
-          <col style="width: 30%;" />
+      <div class="col-lg-8">
+        <table hover="true">
           <thead>
             <tr>
               <th>
@@ -46,17 +42,18 @@
               <th>
                 <h5>Total</h5>
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let produtoCarrinho of carrinho.produtosCarrinho" mdbTableCol>
-              <th>
+              <td>
                 {{ produtoCarrinho.produto.nome }}
-              </th>
-              <th>
+              </td>
+              <td>
                 {{ produtoCarrinho.produto.valor }}
-              </th>
-              <th>
+              </td>
+              <td>
                 <input
                   (change)="atualizarQuantidade($event, produtoCarrinho)"
                   [value]="produtoCarrinho.quantidade"
@@ -67,15 +64,18 @@
                   step="1"
                   type="number"
                 />
-              </th>
-              <th>
+              </td>
+              <td>
                 {{ produtoCarrinho.quantidade * produtoCarrinho.produto.valor }}
-              </th>
+              </td>
+              <td>
+                <button mdbBtn mdbWavesEffect (click)="removerProduto(produtoCarrinho)">Remover</button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="col-md-4">
+      <div class="col-lg-4">
         <div class="alert alert-success text-center">
           <h5>Seu Pedido</h5>
           <h5>Items: {{ carrinho.produtosCarrinho.length }}</h5>
@@ -88,6 +88,7 @@
             outline="true"
             size="sm"
             type="button"
+            [disabled]="carregando || erro"
           >
             Finalizar Pedido
           </button>

@@ -74,8 +74,7 @@ public class CriacaoCenario implements ApplicationListener<ContextRefreshedEvent
     }
 
     private void criarClientes() {
-        //Todo: melhorar validacao
-        Cliente cliente1 = new Cliente("Cliente Novo", "cn@email.com", "12345");
+        Cliente cliente1 = new Cliente("Cliente Novo", "clientenovo@email.com", "cn12345");
         Cliente cliente2 = new Cliente("Cliente Com Historico e Carrinho", "clienteVelho", "1010");
         clienteService.criarCliente(cliente1);
         clienteService.criarCliente(cliente2);

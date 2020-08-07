@@ -20,10 +20,23 @@ export class CarrinhoService {
     return this.http.get<Carrinho>(`${this.urlCarrinhos}/${this.authService.usuarioAtualValue.idCarrinho}`);
   }
 
-  adicionarProdutoNoCarrinho(produto: Produto, quantidade: number): Observable<any> {
-    return this.http.post(
+  adicionarProdutoNoCarrinho(produto: Produto, quantidade: number): Observable<Carrinho> {
+    return this.http.post<Carrinho>(
       `${this.urlCarrinhos}/${this.authService.usuarioAtualValue.idCarrinho}/produtos`,
       new ProdutoCarrinho(produto, quantidade)
+    );
+  }
+
+  atualizarProdutoNoCarrinho(produto: Produto, quantidade: number): Observable<Carrinho> {
+    return this.http.put<Carrinho>(
+      `${this.urlCarrinhos}/${this.authService.usuarioAtualValue.idCarrinho}/produtos`,
+      new ProdutoCarrinho(produto, quantidade)
+    );
+  }
+
+  removerProduto(produto: Produto): Observable<Carrinho> {
+    return this.http.delete<Carrinho>(
+      `${this.urlCarrinhos}/${this.authService.usuarioAtualValue.idCarrinho}/produtos/${produto.id}`
     );
   }
 }

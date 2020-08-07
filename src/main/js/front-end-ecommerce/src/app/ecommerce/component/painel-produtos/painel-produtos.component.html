@@ -24,27 +24,28 @@
 </div>
 
 <div>
-  <div class="row">
-    <div class="col-8">
+  <div class="row" style="align-items: center;">
+    <div class="col-md-8">
       <form class="form-inline md-form form-sm">
         <mdb-icon aria-hidden="true" fas icon="search"></mdb-icon>
         <input
           aria-label="Search"
-          class="form-control form-control-sm ml-3 w-75"
+          class="form-control form-control-sm ml-3"
           mdbInput
           placeholder="Search"
+          style="width: 90% !important;"
           type="text"
           (change)="setTrechoBuscaNome($event)"
         />
       </form>
     </div>
-    <div class="col-4">
+    <div class="col-md-4">
       <button color="primary" mdbBtn mdbWavesEffect type="button" (click)="recuperarProdutosPorNome()">Buscar</button>
     </div>
   </div>
   <div *ngIf="produtos.length > 0; else produtosVazio">
     <div class="card-group">
-      <div *ngFor="let produto of produtos" class="col-md-6">
+      <div *ngFor="let produto of produtos" class="col-md-12">
         <app-produto (adicionarAoCarrinhoClick)="adicionarProdutoAoCarrinho(produto, $event)" [produto]="produto">
         </app-produto>
       </div>

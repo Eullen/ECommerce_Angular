@@ -22,39 +22,44 @@ Requisitos:
     - Acessar a aplicação com: `http://localhost:4200/`
 
 - BackEnd
+    - No terminal, acessar a pasta do projeto
+    - Rodar o comando: `./mvnw spring-boot:run`
+    - O projeto sobe em: `http:localhost:8081/ecommerce`
+        - Autenticacao: `http:localhost:8081/oauth/token`
+        - Apis: `http:localhost:8081/ecommerce/api/{endpoint}`
 
+- A aplicação cria cenários ao subir:
+    - Clientes:
+        - Cliente Novo
+            - Usuario: clientenovo@email.com 
+            - Senha: cn12345
+            - Esse cliente nao possui carrinho ou pedidos
+        - Cliente Com Historico e Carrinho
+            - Usuario: clientevelho
+            - Senha: 1010
+            - Esse cliente possui produtos no carrinho e histórico de pedidos
+    - Produtos:
+        - 4 produtos com 2 itens no estoque cada
 
 ### Cenário Existente
 
 ## Melhorias e Pendências
-- Testes de Integração
-   - ProdutoController
-   - CarrinhoController
-   - HistoricoPedidoController
-   
 - Testes unitários
-    - ProdutoService
     - CarrinhoService
     - ClienteService
     - HistoricoPedidoService
 
-- Tela de Historico de Pedidos
-
-- Tela de Carrinho
-    - Adicionar funcionalidade de editar a quantidade de produtos no carrinho
-    - Adicionar lógica para finalizar pedido
-        - Salvar pedido
-        - Redirecionar para historico
+- Testes de Integração
+   - ProdutoController
+   - CarrinhoController
+   - HistoricoPedidoController
 
 - Telas
     - Melhorar tratamento de mensagens de erro, sucesso 
     - Melhorar loading
-
-- BackEnd
-    - melhorar tratamento de exceções
-    - Configurar swagger corretamente
     
 - FrontEnd
-    - modularizar app
-    - melhorar telas
-    - centralizar montagem das requests
+    - Modularizar app para se adequar ao padrões
+    - Melhorar os models
+    - Melhorar layout telas
+    - Centralizar montagem das requests

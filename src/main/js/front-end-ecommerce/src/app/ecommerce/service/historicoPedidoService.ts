@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { HistoricoPedido } from '../model/historicoPedido';
@@ -12,10 +11,6 @@ import { AuthService } from './authService';
 })
 export class HistoricoPedidoService {
   constructor(private http: HttpClient, private authService: AuthService) {}
-
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
 
   getUrlHistoricoPedido() {
     const idCliente = this.authService.usuarioAtualValue.id;
